@@ -1,0 +1,26 @@
+body {
+  background: #dad8d866;
+}
+@keyframes back-to-docs {
+  0% {
+    bottom: 2em;
+  }
+  50% {
+    bottom: 2.2em;
+  }
+  100% {
+    bottom: 2em;
+  }
+}
+
+.divAnimate {
+  position: fixed;
+  margin: 2em;
+  bottom: 2em;
+  right: 0;
+  z-index: 6;
+  animation: back-to-docs 1.5s ease-in-out infinite;
+}
+.card .container {
+  padding-left: 0.9rem;
+}
