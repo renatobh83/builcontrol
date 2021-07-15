@@ -7,6 +7,8 @@ interface IContextValues {
   detalhes: boolean;
   toggleDetalhes: () => void;
   toggleActive: () => void;
+  compraUser: {};
+  addCompras: (...p) => void;
 }
 
 export const AppContext = createContext({} as IContextValues);
@@ -14,7 +16,8 @@ export const useAppContext = () => useContext(AppContext);
 
 export function Provider({ children }: AppProviderProps) {
   const [isActive, setIsActive] = useState(false);
-  const [detalhes, setDetalhes] = useState(false);
+  const [detalhes, setDetalhes] = useState(true);
+  const [compraUser, setComprasUser] = useState([]);
 
   function toggleActive() {
     setIsActive(!isActive);
@@ -24,7 +27,17 @@ export function Provider({ children }: AppProviderProps) {
     setDetalhes(!detalhes);
   }
 
-  const objValues = { isActive, toggleActive, detalhes, toggleDetalhes };
+  function addCompras(value: any) {
+    setComprasUser(value);
+  }
+  const objValues = {
+    isActive,
+    toggleActive,
+    detalhes,
+    toggleDetalhes,
+    compraUser,
+    addCompras,
+  };
   return (
     <AppContext.Provider value={objValues}>{children}</AppContext.Provider>
   );

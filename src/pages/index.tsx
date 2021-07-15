@@ -1,45 +1,43 @@
-import Router from "next/router";
-import { useEffect } from "react";
-import {
-  Button,
-  Grid,
-  Header,
-  Form,
-  Input,
-  Segment,
-  Divider,
-  Container,
-  Label,
-  Icon,
-} from "semantic-ui-react";
+import { GetServerSideProps } from "next";
+
+import { useUser } from "@auth0/nextjs-auth0";
+import { useAppContext } from "../context/AppContext";
+
+import { Container, Button } from "semantic-ui-react";
+import CardMes from "../components/CardMes";
+import FormCadastro from "../components/FormCadastro";
 
 export default function Home() {
-  useEffect(() => {
-    Router.push("/home");
-  }, []);
-  return (
-    <Grid columns={3} centered stackable padded>
-      <Grid.Row>
-        <Grid.Column>
-          <Segment>
-            <Header as="h2" icon textAlign="center">
-              <Icon name="user" circular />
-              <Header.Content>Login</Header.Content>
-            </Header>
-            <Divider />
-            <Form widths="equal">
-              <Form.Field control={Input} placeholder="E-mail" />
-              <Form.Field control={Input} type="password" placeholder="Senha" />
-              <Label size="mini" as="a">
-                Reset
-              </Label>
-              <Container textAlign="center">
-                <Form.Field control={Button} content="Acessar" />
-              </Container>
-            </Form>
-          </Segment>
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
-  );
+  const { user, error, isLoading } = useUser();
+  const { isActive, toggleActive } = useAppContext();
+  if (user) {
+    return (
+      <Container>
+        {!isActive && <CardMes />}
+        <FormCadastro />
+        <div className="divAnimate">
+          <Button
+            icon="add"
+            size="huge"
+            primary
+            circular
+            onClick={toggleActive}
+          />
+        </div>
+      </Container>
+    );
+  }
+  return <div></div>;
 }
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  params,
+  req,
+}) => {
+  const cookie = req.cookies;
+  if (cookie.appSession === undefined) {
+    res.statusCode = 302;
+    res.setHeader("Location", `http://localhost:3000/api/auth/login`);
+  }
+  return { props: {} };
+};

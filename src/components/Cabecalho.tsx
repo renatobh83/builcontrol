@@ -1,12 +1,12 @@
+import Router from "next/router";
 import { Header, Segment, Button, Grid } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
-interface IHeaderProps {
-  title: string;
-}
 
 export default function Cabecalho() {
   const { detalhes, toggleDetalhes } = useAppContext();
-
+  const logout = async () => {
+    Router.push("/api/auth/logout");
+  };
   return (
     <Segment>
       <Grid columns="equal">
@@ -37,7 +37,13 @@ export default function Cabecalho() {
               basic
             />
           ) : (
-            <Button icon="sign out" size="tiny" basic floated="right" />
+            <Button
+              icon="sign out"
+              size="tiny"
+              basic
+              floated="right"
+              onClick={logout}
+            />
           )}
         </Grid.Column>
       </Grid>
