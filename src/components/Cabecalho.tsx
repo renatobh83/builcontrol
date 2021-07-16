@@ -51,9 +51,9 @@ export default function Cabecalho() {
         await fetch(`/api/compras/loadInsert?user=${user?.sub}`).then(
           (response) => {
             response.json().then((data) => {
-              addCompras(MesCompras(data, titleAno).mes);
-              MesCompras(data, titleAno).mes;
-              setSelectAno(MesCompras(data).ano);
+              const compras = MesCompras(data, titleAno);
+              addCompras(compras.mes);
+              setSelectAno(compras.ano);
               setChangeAnoRigth(true);
               setChangeAnoLeft(true);
             });
