@@ -45,19 +45,21 @@ export default function Cabecalho() {
     }
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     if (user) {
-      await fetch(`/api/compras/loadInsert?user=${user?.sub}`).then(
-        (response) => {
-          response.json().then((data) => {
-            addCompras(MesCompras(data, titleAno).mes);
-            MesCompras(data, titleAno).mes;
-            setSelectAno(MesCompras(data).ano);
-            setChangeAnoRigth(true);
-            setChangeAnoLeft(true);
-          });
-        }
-      );
+      (async () => {
+        await fetch(`/api/compras/loadInsert?user=${user?.sub}`).then(
+          (response) => {
+            response.json().then((data) => {
+              addCompras(MesCompras(data, titleAno).mes);
+              MesCompras(data, titleAno).mes;
+              setSelectAno(MesCompras(data).ano);
+              setChangeAnoRigth(true);
+              setChangeAnoLeft(true);
+            });
+          }
+        );
+      })();
     }
   }, [titleAno]);
   return (
