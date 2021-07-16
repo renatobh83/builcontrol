@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { getMonth, getYear } from "date-fns";
 import { Button, Checkbox, Modal, Form, Label } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
-import { converteDate } from "../utils/filterDates";
+import { converteDate, stringToDate } from "../utils/filterDates";
 import { useUser } from "@auth0/nextjs-auth0";
+
 interface IPropsValue {
   value: string;
 }
@@ -10,6 +12,8 @@ interface IDataValues {
   user: any;
   recorrente: boolean;
   valor: string;
+  mes: String;
+  ano: String;
   data: Date;
   descr: string;
   parcelas: string;
@@ -60,13 +64,15 @@ export default function FormCadastro() {
       user: user.sub,
       recorrente: isChecked,
       valor,
+      mes: getMonth(new Date(converteDate(data))).toString(),
+      ano: getYear(new Date(converteDate(data))).toString(),
       data: converteDate(data),
       descr,
       parcelas,
       categoria,
       formaPagamento,
     };
-
+    console.log(converteDate(data));
     fetch("/api/compras/loadInsert", {
       method: "POST",
       headers: {
@@ -76,9 +82,9 @@ export default function FormCadastro() {
     }).then(() => toggleActive());
   }
   const options = [
-    { key: "credito", value: "credito", text: "Credito" },
-    { key: "debito", value: "debito", text: "Debito" },
     { key: "vista", value: "vista", text: "A vista" },
+    { key: "credito", value: "credito", text: "Credito" },
+    // { key: "debito", value: "debito", text: "Debito" },
   ];
   return (
     <Modal onOpen={() => toggleActive()} open={isActive}>

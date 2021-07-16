@@ -11,34 +11,22 @@ import {
   Button,
 } from "semantic-ui-react";
 
-import { Meses } from "../utils/meses";
 import Cabecalho from "./Cabecalho";
 import DetalhesMes from "./DetalhesMes";
 import Itens from "./Item";
 import { useCallback, useEffect } from "react";
+import { MesCompras } from "../utils/filterDates";
 
 export default function CardMes() {
-  const { detalhes, toggleDetalhes } = useAppContext();
-  const meses = Meses();
-  const { user, error, isLoading } = useUser();
+  const { detalhes, toggleDetalhes, addCompras, compraUser, setSelectAno } =
+    useAppContext();
 
-  const fetchCompras = useCallback(async () => {
-    fetch(`/api/compras/loadInsert?user=${user?.sub}`).then((response) => {
-      response.json().then((data) => console.log(data));
-    });
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      fetchCompras();
-    }
-  }, []);
   return (
     <>
       <Cabecalho />
       {/* Map meses */}
-      {detalhes &&
-        meses.map((mes) => (
+      {!detalhes &&
+        compraUser.map((mes) => (
           <>
             <Card fluid>
               <Header as="h2" content={mes.value}>
@@ -65,7 +53,7 @@ export default function CardMes() {
           </>
         ))}
       {/* end map meses */}
-      <DetalhesMes />
+      {detalhes && <DetalhesMes />}
     </>
   );
 }

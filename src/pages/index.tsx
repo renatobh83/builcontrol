@@ -36,8 +36,19 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const cookie = req.cookies;
   if (cookie.appSession === undefined) {
-    res.statusCode = 302;
-    res.setHeader("Location", `http://localhost:3000/api/auth/login`);
+    return {
+      redirect: {
+        destination: `${process.env.BASE_URL}/api/auth/login`,
+        permanent: true,
+      },
+    };
+  } else {
+    const data = await fetch(`${process.env.BASE_URL}/api/auth/me`, {
+      method: "GET",
+    });
+    const response = await data.json();
+    console.log(response);
+
+    return { props: {} };
   }
-  return { props: {} };
 };

@@ -5,8 +5,9 @@ import "semantic-ui-css/semantic.min.css";
 import "../styles/global.css";
 import { UserProvider } from "@auth0/nextjs-auth0";
 function MyApp({ Component, pageProps }: AppProps) {
+  const { user } = pageProps;
   return (
-    <UserProvider>
+    <UserProvider user={user}>
       <Provider>
         <Head>
           <meta

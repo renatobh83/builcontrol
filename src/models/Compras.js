@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-import { v4 as uuid } from "uuid";
 
 const ComprasSchema = new mongoose.Schema(
   {
@@ -20,6 +19,12 @@ const ComprasSchema = new mongoose.Schema(
       required: true,
     },
     parcelas: {
+      type: String,
+    },
+    mes: {
+      type: String,
+    },
+    ano: {
       type: String,
     },
     formaPagamento: {

@@ -16,6 +16,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/models/Users.js", "src/pages/api/login", "src/utils/email.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/models/Users.js", "src/pages/home.tsx", "src/pages/api/login", "src/utils/email.js"],
   "exclude": ["node_modules"]
 }
