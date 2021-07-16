@@ -18,7 +18,7 @@ export default function Cabecalho() {
 
   const [changeAnoLeft, setChangeAnoLeft] = useState(false);
   const [changeAnoRigth, setChangeAnoRigth] = useState(false);
-  const [titleAno, setTitleAno] = useState(getYear(new Date()));
+  const [titleAno, setTitleAno] = useState(getYear(new Date()).toString());
   const { user, error, isLoading } = useUser();
   const [counter, setCounter] = useState(0);
 
