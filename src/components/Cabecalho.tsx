@@ -1,5 +1,5 @@
 import Router from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getYear } from "date-fns";
 import { Header, Segment, Button, Grid } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
