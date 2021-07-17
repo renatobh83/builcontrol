@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { getMonth, getYear } from "date-fns";
-import { Button, Checkbox, Modal, Form, Label } from "semantic-ui-react";
+import {
+  Button,
+  Checkbox,
+  Modal,
+  Form,
+  Label,
+  Divider,
+} from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
 import { converteDate } from "../utils/filterDates";
 import { useUser } from "@auth0/nextjs-auth0";
@@ -202,6 +209,7 @@ export default function FormCadastro() {
                 />
               </Form.Field>
             </Form.Group>
+            <Divider />
             <Form.Group className="buttons_form">
               <Button color="red" onClick={exitModal}>
                 Cancelar

@@ -31,10 +31,11 @@ export default function Cabecalho() {
   const anoSelectRigth = () => {
     let totalArray = selectAno.length - 1;
     let index = selectAno.indexOf(titleAno.toString());
+
     if (index !== totalArray) {
       setCounter(counter + 1);
       setTitleAno(selectAno[counter + 1]);
-    } else {
+    } else if (index === totalArray) {
       setChangeAnoRigth(false);
     }
   };
@@ -65,8 +66,74 @@ export default function Cabecalho() {
     }
   }, [titleAno]); // eslint-disable-line
   return (
-    <Segment>
-      <Grid columns="equal">
+    <Segment.Group horizontal>
+      <Segment>
+        {detalhes && (
+          <Popup
+            content="Voltar"
+            trigger={
+              <Button
+                icon="arrow left"
+                size="mini"
+                basic
+                onClick={toggleDetalhes}
+              />
+            }
+          />
+        )}
+
+        {/* {changeAnoLeft && ( */}
+        <Button
+          className={changeAnoLeft && !detalhes ? "opacity100" : "opacity0"}
+          icon="angle left"
+          floated="right"
+          size="mini"
+          basic
+          onClick={anoSelectLeft}
+        />
+        {/* )} */}
+      </Segment>
+      <Segment textAlign="center">
+        <Header as="h3" color="black" content={!detalhes ? titleAno : "Mes"} />
+      </Segment>
+      <Segment>
+        {/* {changeAnoRigth && !detalhes && ( */}
+        <Button
+          className={changeAnoRigth && !detalhes ? "opacity100" : "opacity0"}
+          icon="angle right"
+          size="mini"
+          basic
+          onClick={anoSelectRigth}
+        />
+        {/* )} */}
+        {detalhes ? (
+          <Popup
+            content="Filtrar"
+            trigger={
+              <Button
+                icon="ellipsis vertical"
+                size="tiny"
+                floated="right"
+                basic
+              />
+            }
+          />
+        ) : (
+          <Popup
+            content="Logout"
+            trigger={
+              <Button
+                icon="sign out"
+                size="tiny"
+                basic
+                floated="right"
+                onClick={logout}
+              />
+            }
+          />
+        )}
+      </Segment>
+      {/* <Grid columns="equal">
         <Grid.Column>
           {detalhes && (
             <Popup
@@ -141,7 +208,7 @@ export default function Cabecalho() {
             />
           )}
         </Grid.Column>
-      </Grid>
-    </Segment>
+      </Grid> */}
+    </Segment.Group>
   );
 }
