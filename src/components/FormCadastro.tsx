@@ -76,10 +76,11 @@ export default function FormCadastro() {
   }
   async function handleSubmit() {
     if (categoria === "") return alert("Categoria não selecionada");
+
     const dataToSave: IDataValues = {
       user: user.sub,
       recorrente: isChecked,
-      valor,
+      valor: valor.replace(",", "."),
       mes: getMonth(new Date(converteDate(data))).toString(),
       ano: getYear(new Date(converteDate(data))).toString(),
       data: converteDate(data),
