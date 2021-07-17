@@ -137,7 +137,7 @@ export default function FormCadastro() {
                     required
                     allowNegative={false}
                     decimalSeparator="."
-                    inputMode="."
+                    inputMode="numeric"
                     onChange={(e) => handleValor(e.target.value)}
                     type="text"
                     value={valor}
