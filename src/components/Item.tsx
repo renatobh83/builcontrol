@@ -1,4 +1,4 @@
-import { Item, Container } from "semantic-ui-react";
+import { Item, Container, Label } from "semantic-ui-react";
 interface IItemProps {
   type: string;
 }
@@ -9,7 +9,16 @@ export default function Itens({ type, decript }: IItemProps) {
         <Item>
           <Item.Content>
             <Item.Header>{type}</Item.Header>
-            <Item.Meta>{decript}</Item.Meta>
+            <Item.Meta>
+              {" "}
+              <Label
+                color={type === "Despesa" ? "red" : "black"}
+                size="medium"
+                basic
+              >
+                {decript}
+              </Label>
+            </Item.Meta>
           </Item.Content>
         </Item>
       </Item.Group>
