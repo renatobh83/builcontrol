@@ -12,8 +12,9 @@ export default function Itens({ type, decript }: IItemProps) {
             <Item.Header>{type}</Item.Header>
             <Item.Meta>
               <Label
+                id="noBorder"
                 color={type === "Despesa" ? "red" : "black"}
-                size="medium"
+                size="large"
                 basic
               >
                 R$

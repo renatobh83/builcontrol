@@ -6,6 +6,7 @@ interface IPropsComprasuser {
 }
 import {
   Grid,
+  Divider,
   Card,
   Header,
   Container,
@@ -17,7 +18,7 @@ import {
 import Cabecalho from "./Cabecalho";
 import DetalhesMes from "./DetalhesMes";
 import Itens from "./Item";
-import { useState } from "react";
+import ItensRigth from "./RigthItens";
 
 export default function CardMes() {
   const { detalhes, toggleDetalhes, addCompras, compraUser } = useAppContext();
@@ -43,8 +44,13 @@ export default function CardMes() {
                       decript={mes.compra.total.$numberDecimal}
                     />
                   </Grid.Column>
-                  <Grid.Column width={7}>Colna 2</Grid.Column>
+
+                  <Grid.Column width={7}>
+                    <ItensRigth compras={mes.compra.Compras} />
+                  </Grid.Column>
                 </Grid>
+                <Divider />
+
                 <Segment floated="right" basic>
                   <Button basic color="green">
                     Receita

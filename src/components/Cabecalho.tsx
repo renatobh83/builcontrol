@@ -1,11 +1,12 @@
 import Router from "next/router";
 import { useEffect, useState } from "react";
-import { getYear } from "date-fns";
-import { Header, Segment, Button, Grid, Popup } from "semantic-ui-react";
+
+import { Header, Segment, Button, Popup } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
 
 import { useUser } from "@auth0/nextjs-auth0";
 import { findAnoInArray, MesCompras } from "../utils/filterDates";
+
 export default function Cabecalho() {
   const { detalhes, toggleDetalhes, selectAno, setSelectAno, addCompras } =
     useAppContext();
@@ -82,7 +83,6 @@ export default function Cabecalho() {
           />
         )}
 
-        {/* {changeAnoLeft && ( */}
         <Button
           className={changeAnoLeft && !detalhes ? "opacity100" : "opacity0"}
           icon="angle left"
@@ -91,13 +91,11 @@ export default function Cabecalho() {
           basic
           onClick={anoSelectLeft}
         />
-        {/* )} */}
       </Segment>
       <Segment textAlign="center">
         <Header as="h3" color="black" content={!detalhes ? titleAno : "Mes"} />
       </Segment>
       <Segment>
-        {/* {changeAnoRigth && !detalhes && ( */}
         <Button
           className={changeAnoRigth && !detalhes ? "opacity100" : "opacity0"}
           icon="angle right"
@@ -105,7 +103,7 @@ export default function Cabecalho() {
           basic
           onClick={anoSelectRigth}
         />
-        {/* )} */}
+
         {detalhes ? (
           <Popup
             content="Filtrar"
@@ -133,82 +131,6 @@ export default function Cabecalho() {
           />
         )}
       </Segment>
-      {/* <Grid columns="equal">
-        <Grid.Column>
-          {detalhes && (
-            <Popup
-              content="Voltar"
-              trigger={
-                <Button
-                  icon="arrow left"
-                  size="mini"
-                  basic
-                  onClick={toggleDetalhes}
-                />
-              }
-            />
-          )}
-        </Grid.Column>
-        <Grid.Column>
-          <Grid columns={3} textAlign="center">
-            <Grid.Column>
-              {changeAnoLeft && !detalhes && (
-                <Button
-                  icon="angle left"
-                  size="mini"
-                  basic
-                  onClick={anoSelectLeft}
-                />
-              )}
-            </Grid.Column>
-            <Grid.Column>
-              <Header
-                as="h3"
-                color="black"
-                content={!detalhes ? titleAno : "Mes"}
-              />
-            </Grid.Column>
-            <Grid.Column>
-              {changeAnoRigth && !detalhes && (
-                <Button
-                  icon="angle right"
-                  size="mini"
-                  basic
-                  onClick={anoSelectRigth}
-                />
-              )}
-            </Grid.Column>
-          </Grid>
-        </Grid.Column>
-        <Grid.Column>
-          {detalhes ? (
-            <Popup
-              content="Filtrar"
-              trigger={
-                <Button
-                  icon="ellipsis vertical"
-                  size="tiny"
-                  floated="right"
-                  basic
-                />
-              }
-            />
-          ) : (
-            <Popup
-              content="Logout"
-              trigger={
-                <Button
-                  icon="sign out"
-                  size="tiny"
-                  basic
-                  floated="right"
-                  onClick={logout}
-                />
-              }
-            />
-          )}
-        </Grid.Column>
-      </Grid> */}
     </Segment.Group>
   );
 }

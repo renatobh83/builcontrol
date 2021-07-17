@@ -33,3 +33,6 @@ body {
 .opacity100 {
   opacity: 100;
 }
+#noBorder {
+  border: 0;
+}
