@@ -10,10 +10,8 @@ export default function ItensRigth({ compras }: IItemProps) {
     compras.sort(orderDate);
   }
 
-  // load(sorterData());
-  useEffect(() => {
-    sorterData();
-  }, []);
+  load(sorterData());
+
   return (
     <Container fluid>
       <Item.Group divided>
