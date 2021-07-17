@@ -50,13 +50,9 @@ function sortArray(a: any, b: any) {
 }
 function converteDate(data: any) {
   const parts = data.split("-");
-  const agora = Date.now();
-  const hora = getHours(agora);
-  const time = hora === 0 ? `0${hora}` : hora;
   const dateConverter = new Date(
-    `${parts[0]}-${parts[1]}-${parts[2]}T${time}:00:00.000Z`
+    `${parts[0]}-${parts[1]}-${parts[2]}T06:00:00.000Z`
   );
-  console.log(`${parts[0]}-${parts[1]}-${parts[2]}T${time}:00:00.000Z`);
   return dateConverter;
 }
 

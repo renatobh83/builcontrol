@@ -1,3 +1,5 @@
+import { Decimal128 } from "mongodb";
+
 const mongoose = require("mongoose");
 
 const ComprasSchema = new mongoose.Schema(
@@ -11,7 +13,7 @@ const ComprasSchema = new mongoose.Schema(
       required: true,
     },
     valor: {
-      type: String,
+      type: Decimal128,
       required: true,
     },
     recorrente: {

@@ -24,3 +24,6 @@ body {
 .card .container {
   padding-left: 0.9rem;
 }
+.buttons_form {
+  justify-content: flex-end;
+}

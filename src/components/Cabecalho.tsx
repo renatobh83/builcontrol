@@ -7,19 +7,13 @@ import { useAppContext } from "../context/AppContext";
 import { useUser } from "@auth0/nextjs-auth0";
 import { MesCompras } from "../utils/filterDates";
 export default function Cabecalho() {
-  const {
-    detalhes,
-    toggleDetalhes,
-    selectAno,
-    compraUser,
-    setSelectAno,
-    addCompras,
-  } = useAppContext();
+  const { detalhes, toggleDetalhes, selectAno, setSelectAno, addCompras } =
+    useAppContext();
 
   const [changeAnoLeft, setChangeAnoLeft] = useState(false);
   const [changeAnoRigth, setChangeAnoRigth] = useState(false);
-  const [titleAno, setTitleAno] = useState(getYear(new Date()).toString());
-  const { user, error, isLoading } = useUser();
+  const [titleAno, setTitleAno] = useState("");
+  const { user } = useUser();
   const [counter, setCounter] = useState(0);
 
   const logout = async () => {
@@ -54,8 +48,13 @@ export default function Cabecalho() {
               const compras = MesCompras(data, titleAno);
               addCompras(compras.mes);
               setSelectAno(compras.ano);
-              setChangeAnoRigth(true);
-              setChangeAnoLeft(true);
+
+              if (compras.ano.length > 1) {
+                setChangeAnoRigth(true);
+                setChangeAnoLeft(true);
+              } else {
+                setTitleAno(compras.ano[0]);
+              }
             });
           }
         );
@@ -67,24 +66,14 @@ export default function Cabecalho() {
       <Grid columns="equal">
         <Grid.Column>
           {detalhes && (
-            <Button
-              icon="arrow left"
-              size="tiny"
-              basic
-              onClick={toggleDetalhes}
-            />
+            <Button icon="arrow left" size="mini" onClick={toggleDetalhes} />
           )}
         </Grid.Column>
         <Grid.Column>
           <Grid columns={3} textAlign="center">
             <Grid.Column>
               {changeAnoLeft && (
-                <Button
-                  icon="angle left"
-                  size="tiny"
-                  basic
-                  onClick={anoSelectLeft}
-                />
+                <Button icon="angle left" size="mini" onClick={anoSelectLeft} />
               )}
             </Grid.Column>
             <Grid.Column>

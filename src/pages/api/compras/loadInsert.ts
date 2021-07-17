@@ -20,8 +20,8 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
                 ano: "$ano",
                 mes: "$mes",
               },
-
               Compras: { $push: "$$ROOT" },
+              total: { $sum: "$valor" },
             },
           },
         ]);
@@ -37,6 +37,7 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
 
         return response.status(200).json({ success: true, data: compra });
       } catch (error) {
+        console.log(error);
         response.status(400).json({ success: false });
       }
       break;

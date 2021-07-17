@@ -5,13 +5,15 @@ import { useAppContext } from "../context/AppContext";
 import { converteDate } from "../utils/filterDates";
 import { useUser } from "@auth0/nextjs-auth0";
 
+import CurrencyFormat from "react-currency-format";
+
 interface IPropsValue {
   value: string;
 }
 interface IDataValues {
   user: any;
   recorrente: boolean;
-  valor: string;
+  valor: String;
   mes: String;
   ano: String;
   data: Date;
@@ -25,8 +27,8 @@ export default function FormCadastro() {
   const { user } = useUser();
   const [categoria, setCategoria] = useState("");
   const [formaPagamento, setFormaPagamento] = useState("");
-  const [valor, setValor] = useState(" ");
-  const [descr, setDescr] = useState(" ");
+  const [valor, setValor] = useState("");
+  const [descr, setDescr] = useState("");
   const [data, setData] = useState("");
   const [parcelas, setParcelas] = useState("");
   const [isChecked, setIsChecked] = useState(false);
@@ -34,32 +36,38 @@ export default function FormCadastro() {
   function handleChange(e: any, { value }: IPropsValue) {
     setCategoria(value);
   }
-
   function handleFormaPagamento(e: any, { value }: IPropsValue) {
     setFormaPagamento(value);
     if (formaPagamento !== "credito") setParcelas("");
   }
   function handleDescricao(e: any, { value }: IPropsValue) {
     setDescr(value);
-    // console.log(value);
   }
-  function handleValor(e: any, { value }: IPropsValue) {
-    setValor(value);
+  function handleValor(e: any) {
+    setValor(e);
   }
   function handleData(e: any, { value }: IPropsValue) {
     setData(value);
   }
-  function handleParcelas(e: any, { value }: IPropsValue) {
-    setParcelas(value);
+  function handleParcelas(e: any) {
+    setParcelas(e);
   }
   const handleOnChange = () => {
     setIsChecked(!isChecked);
   };
   function exitModal() {
-    setCategoria("");
+    setIsChecked(false);
     toggleActive();
+    reset([
+      setDescr,
+      setCategoria,
+      setValor,
+      setData,
+      setFormaPagamento,
+      setParcelas,
+    ]);
   }
-  async function onSubmit() {
+  async function handleSubmit() {
     const dataToSave: IDataValues = {
       user: user.sub,
       recorrente: isChecked,
@@ -72,14 +80,25 @@ export default function FormCadastro() {
       categoria,
       formaPagamento,
     };
-    console.log(converteDate(data));
+
     fetch("/api/compras/loadInsert", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dataToSave),
-    }).then(() => toggleActive());
+    }).then(() => {
+      reset([
+        setDescr,
+        setCategoria,
+        setValor,
+        setData,
+        setFormaPagamento,
+        setParcelas,
+      ]);
+      setIsChecked(false);
+      toggleActive();
+    });
   }
   const options = [
     { key: "vista", value: "vista", text: "A vista" },
@@ -91,7 +110,7 @@ export default function FormCadastro() {
       <Modal.Header>Adicionar compra</Modal.Header>
       <Modal.Content>
         <Modal.Description>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Form.Group widths="equal">
               <Form.Input
                 placeholder="Compra"
@@ -100,13 +119,21 @@ export default function FormCadastro() {
                 onChange={handleDescricao}
                 required
               />
-              <Form.Input
-                placeholder="Valor"
-                label="Valor"
-                value={valor}
-                onChange={handleValor}
-                required
-              />
+              <div className="required field">
+                <label>Valor</label>
+                <div className="ui input">
+                  <CurrencyFormat
+                    placeholder="Valor"
+                    required
+                    allowNegative={false}
+                    decimalSeparator="."
+                    inputMode="decimal"
+                    onChange={(e) => handleValor(e.target.value)}
+                    type="text"
+                    value={valor}
+                  />
+                </div>
+              </div>
             </Form.Group>
             <Form.Group widths={3}>
               <Form.Input
@@ -125,12 +152,18 @@ export default function FormCadastro() {
                 placeholder="Forma pagamento"
               />
               {formaPagamento === "credito" && (
-                <Form.Input
-                  label="Parcelas"
-                  required
-                  value={parcelas}
-                  onChange={handleParcelas}
-                />
+                <div className="required field">
+                  <label>Parcelas</label>
+                  <div className="ui input">
+                    <CurrencyFormat
+                      placeholder="Parcelas"
+                      required
+                      allowNegative={false}
+                      value={parcelas}
+                      onChange={(e) => handleParcelas(e.target.value)}
+                    />
+                  </div>
+                </div>
               )}
             </Form.Group>
             <Form.Field>
@@ -165,22 +198,25 @@ export default function FormCadastro() {
                 />
               </Form.Field>
             </Form.Group>
+            <Form.Group className="buttons_form">
+              <Button color="red" onClick={exitModal}>
+                Cancelar
+              </Button>
+              <Button
+                content="Gravar"
+                labelPosition="right"
+                icon="checkmark"
+                positive
+              />
+            </Form.Group>
           </Form>
         </Modal.Description>
       </Modal.Content>
-
-      <Modal.Actions>
-        <Button color="red" onClick={exitModal}>
-          Cancelar
-        </Button>
-        <Button
-          content="Gravar"
-          labelPosition="right"
-          icon="checkmark"
-          onClick={onSubmit}
-          positive
-        />
-      </Modal.Actions>
     </Modal>
   );
+}
+export function reset([...opt]) {
+  opt.forEach((set) => {
+    set("");
+  });
 }

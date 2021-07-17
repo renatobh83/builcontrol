@@ -17,12 +17,10 @@ import {
 import Cabecalho from "./Cabecalho";
 import DetalhesMes from "./DetalhesMes";
 import Itens from "./Item";
-import { useCallback, useEffect } from "react";
-import { MesCompras } from "../utils/filterDates";
+import { useState } from "react";
 
 export default function CardMes() {
-  const { detalhes, toggleDetalhes, addCompras, compraUser, setSelectAno } =
-    useAppContext();
+  const { detalhes, toggleDetalhes, addCompras, compraUser } = useAppContext();
 
   return (
     <>
@@ -38,8 +36,12 @@ export default function CardMes() {
               <Container>
                 <Grid columns="equal">
                   <Grid.Column>
-                    <Itens type="Receita" />
-                    <Itens type="Despesa" />
+                    <Itens type="Receita" decript="" />
+
+                    <Itens
+                      type="Despesa"
+                      decript={mes.compra.total.$numberDecimal}
+                    />
                   </Grid.Column>
                   <Grid.Column width={7}>Colna 2</Grid.Column>
                 </Grid>
