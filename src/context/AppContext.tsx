@@ -7,9 +7,9 @@ interface IContextValues {
   detalhes: boolean;
   toggleDetalhes: () => void;
   toggleActive: () => void;
-  compraUser: {};
-  addCompras: (...p) => void;
-  setSelectAno: (p) => void;
+  compraUser: string[];
+  addCompras: (p: any) => void;
+  setSelectAno: (p: any) => void;
   selectAno: string;
 }
 

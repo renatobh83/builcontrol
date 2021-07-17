@@ -2,7 +2,7 @@ import { useState } from "react";
 import { getMonth, getYear } from "date-fns";
 import { Button, Checkbox, Modal, Form, Label } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
-import { converteDate, stringToDate } from "../utils/filterDates";
+import { converteDate } from "../utils/filterDates";
 import { useUser } from "@auth0/nextjs-auth0";
 
 interface IPropsValue {

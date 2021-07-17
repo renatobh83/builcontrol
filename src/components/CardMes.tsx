@@ -1,6 +1,9 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import { useAppContext } from "../context/AppContext";
-
+interface IPropsComprasuser {
+  key: Number;
+  value: string;
+}
 import {
   Grid,
   Card,
