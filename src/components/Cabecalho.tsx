@@ -6,6 +6,7 @@ import { useAppContext } from "../context/AppContext";
 
 import { useUser } from "@auth0/nextjs-auth0";
 import { findAnoInArray, MesCompras } from "../utils/filterDates";
+export function load(fin?: any) {}
 
 export default function Cabecalho() {
   const { detalhes, toggleDetalhes, selectAno, setSelectAno, addCompras } =
@@ -64,6 +65,7 @@ export default function Cabecalho() {
           }
         );
       })();
+      load();
     }
   }, [titleAno]); // eslint-disable-line
   return (

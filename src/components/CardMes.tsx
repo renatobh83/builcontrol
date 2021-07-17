@@ -21,7 +21,7 @@ import Itens from "./Item";
 import ItensRigth from "./RigthItens";
 
 export default function CardMes() {
-  const { detalhes, toggleDetalhes, addCompras, compraUser } = useAppContext();
+  const { detalhes, toggleDetalhes, compraUser } = useAppContext();
 
   return (
     <>
