@@ -10,13 +10,13 @@ export default function Itens({ type, decript }: IItemProps) {
           <Item.Content>
             <Item.Header>{type}</Item.Header>
             <Item.Meta>
-              {" "}
               <Label
                 color={type === "Despesa" ? "red" : "black"}
                 size="medium"
                 basic
               >
-                {decript}
+                R$
+                <Label.Detail>{decript || "0"}</Label.Detail>
               </Label>
             </Item.Meta>
           </Item.Content>

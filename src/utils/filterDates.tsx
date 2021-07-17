@@ -55,5 +55,13 @@ function converteDate(data: any) {
   );
   return dateConverter;
 }
-
-export { MesCompras, converteDate, anoCompra };
+function findAnoInArray(compras: string[]): string {
+  const ano = compras.find(
+    (ele) => ele === new Date().getFullYear().toString()
+  );
+  if (ano) {
+    return ano;
+  }
+  return "";
+}
+export { MesCompras, converteDate, anoCompra, findAnoInArray };

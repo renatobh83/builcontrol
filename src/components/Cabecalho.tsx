@@ -5,7 +5,7 @@ import { Header, Segment, Button, Grid } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
 
 import { useUser } from "@auth0/nextjs-auth0";
-import { MesCompras } from "../utils/filterDates";
+import { findAnoInArray, MesCompras } from "../utils/filterDates";
 export default function Cabecalho() {
   const { detalhes, toggleDetalhes, selectAno, setSelectAno, addCompras } =
     useAppContext();
@@ -46,14 +46,17 @@ export default function Cabecalho() {
           (response) => {
             response.json().then((data) => {
               const compras = MesCompras(data, titleAno);
+              const anoTitle = findAnoInArray(compras.ano);
               addCompras(compras.mes);
               setSelectAno(compras.ano);
-
               if (compras.ano.length > 1) {
+                if (titleAno === "") {
+                  setTitleAno(anoTitle);
+                }
                 setChangeAnoRigth(true);
                 setChangeAnoLeft(true);
               } else {
-                setTitleAno(compras.ano[0]);
+                setTitleAno(anoTitle);
               }
             });
           }
@@ -72,8 +75,13 @@ export default function Cabecalho() {
         <Grid.Column>
           <Grid columns={3} textAlign="center">
             <Grid.Column>
-              {changeAnoLeft && (
-                <Button icon="angle left" size="mini" onClick={anoSelectLeft} />
+              {changeAnoLeft && !detalhes && (
+                <Button
+                  icon="angle left"
+                  size="mini"
+                  basic
+                  onClick={anoSelectLeft}
+                />
               )}
             </Grid.Column>
             <Grid.Column>
@@ -84,10 +92,10 @@ export default function Cabecalho() {
               />
             </Grid.Column>
             <Grid.Column>
-              {changeAnoRigth && (
+              {changeAnoRigth && !detalhes && (
                 <Button
                   icon="angle right"
-                  size="tiny"
+                  size="mini"
                   basic
                   onClick={anoSelectRigth}
                 />
