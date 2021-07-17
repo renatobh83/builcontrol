@@ -4,6 +4,7 @@ import Compras from "../../../../models/Compras";
 
 class ComprasController {
   async create(params: any) {
+    let compra;
     const {
       parcelas,
       data,
@@ -17,12 +18,14 @@ class ComprasController {
       user,
     } = params;
     try {
+      // lancemento parcelado
       if (parcelas && Number(parcelas) > 1) {
         const valorParcela = (parseFloat(valor) / Number(parcelas)).toFixed(2);
         let dataParcela;
+        // for parcelas
         for (let i = 1; i < Number(parcelas); i++) {
+          // gera os meses
           dataParcela = addMonths(new Date(data), i);
-          const novoMes = getMonth(dataParcela).toString();
 
           const dataToSave = {
             parcelas,
@@ -32,12 +35,13 @@ class ComprasController {
             ano: getYear(dataParcela).toString(),
             categoria,
             formaPagamento,
-            mes: novoMes,
+            mes: getMonth(dataParcela).toString(),
             recorrente,
             user,
           };
-          await Compras.create(dataToSave);
-        }
+          compra = await Compras.create(dataToSave);
+        } // Fim for das parcelas
+        //  primeira pacela
         const dataToSave = {
           parcelas,
           data,
@@ -50,14 +54,14 @@ class ComprasController {
           recorrente,
           user,
         };
-        await Compras.create(dataToSave);
+        compra = await Compras.create(dataToSave);
       } else {
-        await Compras.create(params);
+        // lancemento a vista
+        compra = await Compras.create(params);
       }
-      return "Ok";
+      return compra._id;
     } catch (error) {
-      console.log(error);
-      return error;
+      throw new Error(error.messsage);
     }
   }
   async findByAno(params: any) {

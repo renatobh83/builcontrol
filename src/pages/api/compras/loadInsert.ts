@@ -34,7 +34,7 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
     case "POST":
       try {
         const compra = await comprasController.create(request.body);
-
+        console.log(compra);
         return response.status(200).json({ success: true, data: compra });
       } catch (error) {
         console.log(error);

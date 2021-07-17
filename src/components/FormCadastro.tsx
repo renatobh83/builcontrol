@@ -68,6 +68,7 @@ export default function FormCadastro() {
     ]);
   }
   async function handleSubmit() {
+    if (categoria === "") return alert("Categoria não selecionada");
     const dataToSave: IDataValues = {
       user: user.sub,
       recorrente: isChecked,
@@ -87,23 +88,25 @@ export default function FormCadastro() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dataToSave),
-    }).then(() => {
-      reset([
-        setDescr,
-        setCategoria,
-        setValor,
-        setData,
-        setFormaPagamento,
-        setParcelas,
-      ]);
-      setIsChecked(false);
-      toggleActive();
+    }).then((res) => {
+      if (res.status === 200) {
+        reset([
+          setDescr,
+          setCategoria,
+          setValor,
+          setData,
+          setFormaPagamento,
+          setParcelas,
+        ]);
+        setIsChecked(false);
+        toggleActive();
+        return alert("Compra cadastrada com sucesso");
+      }
     });
   }
   const options = [
     { key: "vista", value: "vista", text: "A vista" },
-    { key: "credito", value: "credito", text: "Credito" },
-    // { key: "debito", value: "debito", text: "Debito" },
+    { key: "credito", value: "credito", text: "Crédito" },
   ];
   return (
     <Modal onOpen={() => toggleActive()} open={isActive}>

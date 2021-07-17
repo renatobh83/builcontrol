@@ -3,7 +3,7 @@ import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useAppContext } from "../context/AppContext";
 
-import { Container, Button } from "semantic-ui-react";
+import { Container, Button, Popup } from "semantic-ui-react";
 import CardMes from "../components/CardMes";
 import FormCadastro from "../components/FormCadastro";
 import { useEffect } from "react";
@@ -19,12 +19,17 @@ export default function Home() {
         {!isActive && <CardMes />}
         <FormCadastro />
         <div className="divAnimate">
-          <Button
-            icon="add"
-            size="huge"
-            primary
-            circular
-            onClick={toggleActive}
+          <Popup
+            content="Lançar compra"
+            trigger={
+              <Button
+                icon="add"
+                size="huge"
+                primary
+                circular
+                onClick={toggleActive}
+              />
+            }
           />
         </div>
       </Container>

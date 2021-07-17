@@ -1,7 +1,7 @@
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import { getYear } from "date-fns";
-import { Header, Segment, Button, Grid } from "semantic-ui-react";
+import { Header, Segment, Button, Grid, Popup } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
 
 import { useUser } from "@auth0/nextjs-auth0";
@@ -69,7 +69,17 @@ export default function Cabecalho() {
       <Grid columns="equal">
         <Grid.Column>
           {detalhes && (
-            <Button icon="arrow left" size="mini" onClick={toggleDetalhes} />
+            <Popup
+              content="Voltar"
+              trigger={
+                <Button
+                  icon="arrow left"
+                  size="mini"
+                  basic
+                  onClick={toggleDetalhes}
+                />
+              }
+            />
           )}
         </Grid.Column>
         <Grid.Column>
@@ -105,19 +115,29 @@ export default function Cabecalho() {
         </Grid.Column>
         <Grid.Column>
           {detalhes ? (
-            <Button
-              icon="ellipsis vertical"
-              size="tiny"
-              floated="right"
-              basic
+            <Popup
+              content="Filtrar"
+              trigger={
+                <Button
+                  icon="ellipsis vertical"
+                  size="tiny"
+                  floated="right"
+                  basic
+                />
+              }
             />
           ) : (
-            <Button
-              icon="sign out"
-              size="tiny"
-              basic
-              floated="right"
-              onClick={logout}
+            <Popup
+              content="Logout"
+              trigger={
+                <Button
+                  icon="sign out"
+                  size="tiny"
+                  basic
+                  floated="right"
+                  onClick={logout}
+                />
+              }
             />
           )}
         </Grid.Column>
