@@ -79,7 +79,12 @@ export default function Cabecalho() {
           <Grid columns={3} textAlign="center">
             <Grid.Column>
               {changeAnoLeft && (
-                <Button icon="angle left" basic onClick={anoSelectLeft} />
+                <Button
+                  icon="angle left"
+                  size="tiny"
+                  basic
+                  onClick={anoSelectLeft}
+                />
               )}
             </Grid.Column>
             <Grid.Column>
@@ -91,7 +96,12 @@ export default function Cabecalho() {
             </Grid.Column>
             <Grid.Column>
               {changeAnoRigth && (
-                <Button icon="angle right" basic onClick={anoSelectRigth} />
+                <Button
+                  icon="angle right"
+                  size="tiny"
+                  basic
+                  onClick={anoSelectRigth}
+                />
               )}
             </Grid.Column>
           </Grid>

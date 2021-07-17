@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 import { useUser } from "@auth0/nextjs-auth0";
 import { useAppContext } from "../context/AppContext";
@@ -6,10 +6,13 @@ import { useAppContext } from "../context/AppContext";
 import { Container, Button } from "semantic-ui-react";
 import CardMes from "../components/CardMes";
 import FormCadastro from "../components/FormCadastro";
+import { useEffect } from "react";
 
 export default function Home() {
-  const { user, error, isLoading } = useUser();
+  const { user } = useUser();
   const { isActive, toggleActive } = useAppContext();
+
+  useEffect(() => {}, []);
   if (user) {
     return (
       <Container>
@@ -29,11 +32,11 @@ export default function Home() {
   }
   return <div></div>;
 }
-export const getServerSideProps: GetServerSideProps = async ({
-  res,
-  params,
-  req,
-}) => {
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const { req } = context;
+
   const cookie = req.cookies;
   if (cookie.appSession === undefined) {
     return {
@@ -42,13 +45,6 @@ export const getServerSideProps: GetServerSideProps = async ({
         permanent: true,
       },
     };
-  } else {
-    const data = await fetch(`${process.env.BASE_URL}/api/auth/me`, {
-      method: "GET",
-    });
-    const response = await data.json();
-    console.log(response);
-
-    return { props: {} };
   }
+  return { props: {} };
 };
