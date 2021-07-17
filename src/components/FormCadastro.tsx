@@ -127,7 +127,7 @@ export default function FormCadastro() {
                     required
                     allowNegative={false}
                     decimalSeparator="."
-                    inputMode="decimal"
+                    inputMode="."
                     onChange={(e) => handleValor(e.target.value)}
                     type="text"
                     value={valor}
@@ -158,6 +158,7 @@ export default function FormCadastro() {
                     <CurrencyFormat
                       placeholder="Parcelas"
                       required
+                      inputMode="numeric"
                       allowNegative={false}
                       value={parcelas}
                       onChange={(e) => handleParcelas(e.target.value)}

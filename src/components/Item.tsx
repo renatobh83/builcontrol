@@ -1,6 +1,7 @@
 import { Item, Container, Label } from "semantic-ui-react";
 interface IItemProps {
   type: string;
+  decript: string;
 }
 export default function Itens({ type, decript }: IItemProps) {
   return (

@@ -63,7 +63,7 @@ export default function Cabecalho() {
         );
       })();
     }
-  }, [titleAno]);
+  }, [titleAno]); // eslint-disable-line
   return (
     <Segment>
       <Grid columns="equal">
