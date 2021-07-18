@@ -20,10 +20,24 @@ import DetalhesMes from "./DetalhesMes";
 import Itens from "./Item";
 import ItensRigth from "./RigthItens";
 import ItensRigthMobile from "./RigthItensMobile";
+import { useEffect } from "react";
 
 export default function CardMes() {
-  const { detalhes, toggleDetalhes, compraUser } = useAppContext();
+  const { detalhes, toggleDetalhes, compraUser, toggleReceita, setReceitas } =
+    useAppContext();
 
+  async function receitaAdd(e) {
+    const response = await fetch(
+      `/api/receitas/receita?mes=${e._id.mes}&ano=${e._id.ano}`
+    );
+    const receitas = await response.json();
+    setReceitas(receitas.data);
+    toggleReceita();
+  }
+
+  useEffect(() => {
+    (async () => {})();
+  }, []);
   return (
     <>
       <Cabecalho />
@@ -36,10 +50,12 @@ export default function CardMes() {
                 <Label ribbon content={mes.value} color="red" />
               </Header>
               <Container>
-                <Grid columns="equal">
+                <Grid columns="equal" padded="vertically">
                   <Grid.Row only="computer tablet">
-                    <Grid.Column width={3}>
+                    <Grid.Column>
                       <Itens type="Receita" decript="" />
+                    </Grid.Column>
+                    <Grid.Column>
                       <Itens
                         type="Despesa"
                         decript={mes.compra.total.$numberDecimal}
@@ -51,7 +67,11 @@ export default function CardMes() {
                     </Grid.Column>
                     <Grid.Column>
                       <Segment basic size="mini">
-                        <Button basic color="green">
+                        <Button
+                          basic
+                          color="green"
+                          onClick={() => receitaAdd(mes.compra)}
+                        >
                           Receita
                         </Button>
                       </Segment>
@@ -82,7 +102,7 @@ export default function CardMes() {
                   <Grid.Row only="mobile">
                     <Grid.Column>
                       <Segment basic size="mini">
-                        <Button basic color="green">
+                        <Button basic color="green" onClick={toggleReceita}>
                           Receita
                         </Button>
                       </Segment>

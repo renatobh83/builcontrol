@@ -5,12 +5,16 @@ interface AppProviderProps {
 interface IContextValues {
   isActive: boolean;
   detalhes: boolean;
+  isActiveModalReceita: boolean;
+  selectAno: string;
+  compraUser: string[];
+  receitas: string[];
+  setReceitas: (p: any) => void;
   toggleDetalhes: () => void;
   toggleActive: () => void;
-  compraUser: string[];
+  toggleReceita: () => void;
   addCompras: (p: any) => void;
   setSelectAno: (p: any) => void;
-  selectAno: string;
 }
 
 export const AppContext = createContext({} as IContextValues);
@@ -20,7 +24,9 @@ export function Provider({ children }: AppProviderProps) {
   const [isActive, setIsActive] = useState(false);
   const [detalhes, setDetalhes] = useState(false);
   const [compraUser, setComprasUser] = useState([]);
-  const [selectAno, setSelectAno] = useState([]);
+  const [selectAno, setSelectAno] = useState("");
+  const [isActiveModalReceita, setisActiveModalReceita] = useState(false);
+  const [receitas, setReceitas] = useState([]);
 
   function toggleActive() {
     setIsActive(!isActive);
@@ -30,18 +36,26 @@ export function Provider({ children }: AppProviderProps) {
     setDetalhes(!detalhes);
   }
 
+  function toggleReceita() {
+    setisActiveModalReceita(!isActiveModalReceita);
+  }
+
   function addCompras(value: any) {
     setComprasUser(value);
   }
   const objValues = {
-    isActive,
     toggleActive,
-    detalhes,
     toggleDetalhes,
-    compraUser,
     addCompras,
-    selectAno,
     setSelectAno,
+    toggleReceita,
+    setReceitas,
+    receitas,
+    isActiveModalReceita,
+    detalhes,
+    compraUser,
+    isActive,
+    selectAno,
   };
   return (
     <AppContext.Provider value={objValues}>{children}</AppContext.Provider>

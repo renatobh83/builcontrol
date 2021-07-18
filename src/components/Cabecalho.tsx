@@ -50,6 +50,7 @@ export default function Cabecalho() {
             response.json().then((data) => {
               const compras = MesCompras(data, titleAno);
               const anoTitle = findAnoInArray(compras.ano);
+
               addCompras(compras.mes);
               setSelectAno(compras.ano);
               if (compras.ano.length > 1) {

@@ -9,7 +9,7 @@ import {
   Divider,
 } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
-import { converteDate } from "../utils/filterDates";
+import { converteDate, MesCompras } from "../utils/filterDates";
 import { useUser } from "@auth0/nextjs-auth0";
 
 import CurrencyFormat from "react-currency-format";
@@ -30,7 +30,7 @@ interface IDataValues {
   formaPagamento: string;
 }
 export default function FormCompra() {
-  const { isActive, toggleActive } = useAppContext();
+  const { isActive, toggleActive, addCompras } = useAppContext();
   const { user } = useUser();
   const [categoria, setCategoria] = useState("");
   const [formaPagamento, setFormaPagamento] = useState("");
@@ -78,7 +78,7 @@ export default function FormCompra() {
     if (categoria === "") return alert("Categoria não selecionada");
 
     const dataToSave: IDataValues = {
-      user: user.sub,
+      user: user?.sub,
       recorrente: isChecked,
       valor: valor.replace(",", "."),
       mes: getMonth(new Date(converteDate(data))).toString(),
@@ -107,8 +107,16 @@ export default function FormCompra() {
           setParcelas,
         ]);
         setIsChecked(false);
-        toggleActive();
-        return alert("Compra cadastrada com sucesso");
+        fetch(`/api/compras/loadInsert?user=${user?.sub}`).then((response) => {
+          response.json().then((dadosCompra) => {
+            const compras = MesCompras(
+              dadosCompra,
+              getYear(new Date(converteDate(data))).toString()
+            );
+            addCompras(compras.mes);
+            toggleActive();
+          });
+        });
       }
     });
   }
@@ -120,6 +128,7 @@ export default function FormCompra() {
     <Modal
       onOpen={() => toggleActive()}
       open={isActive}
+      dimmer="blurring"
       closeIcon
       onClose={() => toggleActive()}
     >

@@ -17,7 +17,6 @@ export default function Itens({ type, decript }: IItemProps) {
               size="large"
               basic
             >
-              R$
               <Label.Detail>{decript || "0"}</Label.Detail>
             </Label>
           </Item.Meta>

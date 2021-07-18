@@ -59,14 +59,13 @@ class ComprasController {
         // lancemento a vista
         compra = await Compras.create(params);
       }
-      return compra._id;
+      return compra;
     } catch (error) {
       throw new Error(error.messsage);
     }
   }
   async findByAno(params: any) {
     const { user, ano } = params;
-    console.log(params);
     const compras = await Compras.aggregate([
       {
         $match: { ano },

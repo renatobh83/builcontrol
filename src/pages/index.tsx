@@ -6,7 +6,9 @@ import { useAppContext } from "../context/AppContext";
 import { Container, Button, Popup } from "semantic-ui-react";
 import CardMes from "../components/CardMes";
 import FormCompra from "../components/FormCompra";
+
 import { useEffect } from "react";
+import FormReceita from "../components/FormReceita";
 
 export default function Home() {
   const { user } = useUser();
@@ -16,8 +18,10 @@ export default function Home() {
   if (user) {
     return (
       <Container>
-        {!isActive && <CardMes />}
+        {/* {!isActive && <CardMes />} */}
+        <CardMes />
         <FormCompra />
+        <FormReceita />
         <div className="divAnimate">
           <Popup
             content="Lançar compra"
