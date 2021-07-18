@@ -117,7 +117,12 @@ export default function FormCompra() {
     { key: "credito", value: "credito", text: "Crédito" },
   ];
   return (
-    <Modal onOpen={() => toggleActive()} open={isActive}>
+    <Modal
+      onOpen={() => toggleActive()}
+      open={isActive}
+      closeIcon
+      onClose={() => toggleActive()}
+    >
       <Modal.Header>Adicionar compra</Modal.Header>
       <Modal.Content>
         <Modal.Description>

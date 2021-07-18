@@ -19,6 +19,7 @@ import Cabecalho from "./Cabecalho";
 import DetalhesMes from "./DetalhesMes";
 import Itens from "./Item";
 import ItensRigth from "./RigthItens";
+import ItensRigthMobile from "./RigthItensMobile";
 
 export default function CardMes() {
   const { detalhes, toggleDetalhes, compraUser } = useAppContext();
@@ -36,21 +37,68 @@ export default function CardMes() {
               </Header>
               <Container>
                 <Grid columns="equal">
-                  <Grid.Column>
-                    <Itens type="Receita" decript="" />
+                  <Grid.Row only="computer tablet">
+                    <Grid.Column width={3}>
+                      <Itens type="Receita" decript="" />
+                      <Itens
+                        type="Despesa"
+                        decript={mes.compra.total.$numberDecimal}
+                      />
+                    </Grid.Column>
 
-                    <Itens
-                      type="Despesa"
-                      decript={mes.compra.total.$numberDecimal}
-                    />
-                  </Grid.Column>
-
-                  <Grid.Column width={7}>
-                    <ItensRigth compras={mes.compra.Compras} />
-                  </Grid.Column>
+                    <Grid.Column>
+                      <ItensRigth compras={mes.compra.Compras} />
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Segment basic size="mini">
+                        <Button basic color="green">
+                          Receita
+                        </Button>
+                      </Segment>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Segment basic size="mini">
+                        <Button basic color="teal" onClick={toggleDetalhes}>
+                          Detalhes
+                        </Button>
+                      </Segment>
+                    </Grid.Column>
+                  </Grid.Row>
+                  {/* Grid mobile */}
+                  <Grid.Row only="mobile">
+                    <Grid.Column>
+                      <Itens type="Receita" decript="" />
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Itens
+                        type="Despesa"
+                        decript={mes.compra.total.$numberDecimal}
+                      />
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row columns={2} only="mobile">
+                    <ItensRigthMobile compras={mes.compra.Compras} />
+                  </Grid.Row>
+                  <Grid.Row only="mobile">
+                    <Grid.Column>
+                      <Segment basic size="mini">
+                        <Button basic color="green">
+                          Receita
+                        </Button>
+                      </Segment>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Segment basic size="mini">
+                        <Button basic color="teal" onClick={toggleDetalhes}>
+                          Detalhes
+                        </Button>
+                      </Segment>
+                    </Grid.Column>
+                    {/* <ItensRigth compras={mes.compra.Compras} /> */}
+                  </Grid.Row>
                 </Grid>
+                {/* 
                 <Divider />
-
                 <Segment floated="right" basic>
                   <Button basic color="green">
                     Receita
@@ -58,7 +106,7 @@ export default function CardMes() {
                   <Button basic color="teal" onClick={toggleDetalhes}>
                     Detalhes Mes
                   </Button>
-                </Segment>
+                </Segment> */}
               </Container>
             </Card>
           </>

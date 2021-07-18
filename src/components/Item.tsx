@@ -5,25 +5,25 @@ interface IItemProps {
 }
 export default function Itens({ type, decript }: IItemProps) {
   return (
-    <Container fluid>
-      <Item.Group unstackable>
-        <Item>
-          <Item.Content>
-            <Item.Header>{type}</Item.Header>
-            <Item.Meta>
-              <Label
-                id="noBorder"
-                color={type === "Despesa" ? "red" : "black"}
-                size="large"
-                basic
-              >
-                R$
-                <Label.Detail>{decript || "0"}</Label.Detail>
-              </Label>
-            </Item.Meta>
-          </Item.Content>
-        </Item>
-      </Item.Group>
-    </Container>
+    // <Container fluid>
+    <Item.Group unstackable>
+      <Item>
+        <Item.Content>
+          <Item.Header>{type}</Item.Header>
+          <Item.Meta>
+            <Label
+              id="noBorder"
+              color={type === "Despesa" ? "red" : "black"}
+              size="large"
+              basic
+            >
+              R$
+              <Label.Detail>{decript || "0"}</Label.Detail>
+            </Label>
+          </Item.Meta>
+        </Item.Content>
+      </Item>
+    </Item.Group>
+    // </Container>
   );
 }
