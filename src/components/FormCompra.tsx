@@ -29,7 +29,7 @@ interface IDataValues {
   categoria: string;
   formaPagamento: string;
 }
-export default function FormCadastro() {
+export default function FormCompra() {
   const { isActive, toggleActive } = useAppContext();
   const { user } = useUser();
   const [categoria, setCategoria] = useState("");

@@ -5,7 +5,7 @@ import { useAppContext } from "../context/AppContext";
 
 import { Container, Button, Popup } from "semantic-ui-react";
 import CardMes from "../components/CardMes";
-import FormCadastro from "../components/FormCadastro";
+import FormCompra from "../components/FormCompra";
 import { useEffect } from "react";
 
 export default function Home() {
@@ -17,7 +17,7 @@ export default function Home() {
     return (
       <Container>
         {!isActive && <CardMes />}
-        <FormCadastro />
+        <FormCompra />
         <div className="divAnimate">
           <Popup
             content="Lançar compra"

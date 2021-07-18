@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 import { Container, Button } from "semantic-ui-react";
 
 import CardMes from "../components/CardMes";
-import FormCadastro from "../components/FormCadastro";
+import FormCadastro from "../components/FormCompra";
 import { useAppContext } from "../context/AppContext";
 
 export default function Home() {
