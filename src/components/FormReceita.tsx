@@ -26,13 +26,14 @@ export default function FormReceita() {
       ano: getYear(new Date(converteDate(data))).toString(),
       data: converteDate(data),
     };
-    await fetch("/api/receitas/receita", {
+    const dataResponse = await fetch("/api/receitas/receita", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dataToSave),
     });
+
     toggleReceita();
   }
 

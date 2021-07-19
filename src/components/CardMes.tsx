@@ -6,7 +6,6 @@ interface IPropsComprasuser {
 }
 import {
   Grid,
-  Divider,
   Card,
   Header,
   Container,
@@ -20,57 +19,58 @@ import DetalhesMes from "./DetalhesMes";
 import Itens from "./Item";
 import ItensRigth from "./RigthItens";
 import ItensRigthMobile from "./RigthItensMobile";
-import { useEffect } from "react";
+import { Meses } from "../utils/meses";
+import { groupByCompras } from "../utils/filterDates";
 
 export default function CardMes() {
-  const { detalhes, toggleDetalhes, compraUser, toggleReceita, setReceitas } =
-    useAppContext();
+  const {
+    detalhes,
+    toggleDetalhes,
+    toggleReceita,
+    setReceitas,
+    titleYear,
+    userPurchases,
+  } = useAppContext();
 
-  async function receitaAdd(e) {
+  async function receitaAdd(mes) {
     const response = await fetch(
-      `/api/receitas/receita?mes=${e._id.mes}&ano=${e._id.ano}`
+      `/api/receitas/receita?mes=${mes}&ano=${titleYear}`
     );
     const receitas = await response.json();
-    setReceitas(receitas.data);
+    // console.log(groupByCompras(receitas, anoAtivo));
+    // setReceitas(receitas.data);
     toggleReceita();
   }
 
-  useEffect(() => {
-    (async () => {})();
-  }, []);
   return (
     <>
       <Cabecalho />
       {/* Map meses */}
       {!detalhes &&
-        compraUser.map((mes) => (
+        Object.keys(userPurchases).map((mes) => (
           <>
-            <Card fluid>
-              <Header as="h2" content={mes.value}>
-                <Label ribbon content={mes.value} color="red" />
+            <Card fluid key={mes}>
+              <Header as="h2">
+                <Label ribbon content={Meses(mes)} color="red" />
               </Header>
               <Container>
                 <Grid columns="equal" padded="vertically">
                   <Grid.Row only="computer tablet">
                     <Grid.Column>
-                      <Itens type="Receita" decript="" />
+                      <Itens type="Receita" valor={mes} />
                     </Grid.Column>
                     <Grid.Column>
-                      <Itens
-                        type="Despesa"
-                        decript={mes.compra.total.$numberDecimal}
-                      />
+                      <Itens type="Despesa" valor={mes} />
                     </Grid.Column>
-
                     <Grid.Column>
-                      <ItensRigth compras={mes.compra.Compras} />
+                      {/* <ItensRigth compras={mes.compra.Compras} /> */}
                     </Grid.Column>
                     <Grid.Column>
                       <Segment basic size="mini">
                         <Button
                           basic
                           color="green"
-                          onClick={() => receitaAdd(mes.compra)}
+                          onClick={() => receitaAdd(mes)}
                         >
                           Receita
                         </Button>
@@ -87,17 +87,14 @@ export default function CardMes() {
                   {/* Grid mobile */}
                   <Grid.Row only="mobile">
                     <Grid.Column>
-                      <Itens type="Receita" decript="" />
+                      <Itens type="Receita" valor={mes} />
                     </Grid.Column>
                     <Grid.Column>
-                      <Itens
-                        type="Despesa"
-                        decript={mes.compra.total.$numberDecimal}
-                      />
+                      <Itens type="Despesa" valor={mes} />
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row columns={2} only="mobile">
-                    <ItensRigthMobile compras={mes.compra.Compras} />
+                    {/* <ItensRigthMobile compras={mes.compra.Compras} /> */}
                   </Grid.Row>
                   <Grid.Row only="mobile">
                     <Grid.Column>
@@ -114,19 +111,8 @@ export default function CardMes() {
                         </Button>
                       </Segment>
                     </Grid.Column>
-                    {/* <ItensRigth compras={mes.compra.Compras} /> */}
                   </Grid.Row>
                 </Grid>
-                {/* 
-                <Divider />
-                <Segment floated="right" basic>
-                  <Button basic color="green">
-                    Receita
-                  </Button>
-                  <Button basic color="teal" onClick={toggleDetalhes}>
-                    Detalhes Mes
-                  </Button>
-                </Segment> */}
               </Container>
             </Card>
           </>

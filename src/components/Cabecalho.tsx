@@ -5,17 +5,32 @@ import { Header, Segment, Button, Popup } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
 
 import { useUser } from "@auth0/nextjs-auth0";
-import { findAnoInArray, MesCompras } from "../utils/filterDates";
+import {
+  findAnoInArray,
+  groupByCompras,
+  comprasByAno,
+} from "../utils/filterDates";
 export function load(fin?: any) {}
 
 export default function Cabecalho() {
-  const { detalhes, toggleDetalhes, selectAno, setSelectAno, addCompras } =
-    useAppContext();
+  const {
+    detalhes,
+    toggleDetalhes,
+    compratoFetch,
+    userPurchaseByYear,
+    titleYear,
+    setTitleYear,
+    dataFetch,
+    userPurchases,
+    addReceitaFetch,
+    setUserPurchases,
+    setObjReceita,
+    receitas,
+  } = useAppContext();
 
+  const { user } = useUser();
   const [changeAnoLeft, setChangeAnoLeft] = useState(false);
   const [changeAnoRigth, setChangeAnoRigth] = useState(false);
-  const [titleAno, setTitleAno] = useState("");
-  const { user } = useUser();
   const [counter, setCounter] = useState(0);
 
   const logout = async () => {
@@ -23,52 +38,58 @@ export default function Cabecalho() {
   };
 
   const anoSelectLeft = () => {
-    if (counter !== 0) {
+    if (counter != 0) {
       setCounter(counter - 1);
-      setTitleAno(selectAno[counter - 1]);
-    } else {
+      setTitleYear(userPurchaseByYear[counter - 1]);
+    }
+    if (counter - 1 === 0) {
       setChangeAnoLeft(false);
     }
+    setChangeAnoRigth(true);
   };
-  const anoSelectRigth = () => {
-    let totalArray = selectAno.length - 1;
-    let index = selectAno.indexOf(titleAno.toString());
 
-    if (index !== totalArray) {
+  const anoSelectRigth = () => {
+    if (counter < userPurchaseByYear.length - 1) {
       setCounter(counter + 1);
-      setTitleAno(selectAno[counter + 1]);
-    } else if (index === totalArray) {
-      setChangeAnoRigth(false);
+      setTitleYear(userPurchaseByYear[counter + 1]);
+      if (counter + 1 === userPurchaseByYear.length - 1) {
+        setChangeAnoRigth(false);
+      }
+      setChangeAnoLeft(true);
     }
   };
 
   useEffect(() => {
     if (user) {
-      (async () => {
-        await fetch(`/api/compras/loadInsert?user=${user?.sub}`).then(
-          (response) => {
-            response.json().then((data) => {
-              const compras = MesCompras(data, titleAno);
-              const anoTitle = findAnoInArray(compras.ano);
+      if (userPurchases.length === 0) {
+        (async () => {
+          const response = await fetch(
+            `/api/compras/loadInsert?user=${user?.sub}`
+          );
+          const { data } = await response.json();
+          dataFetch(data);
+        })();
+        (async () => {
+          const response = await fetch(
+            `/api/receitas/receita?user=${user?.sub}`
+          );
+          const { data } = await response.json();
+          addReceitaFetch(data);
+        })();
+      }
+      if (userPurchaseByYear.length > 1) {
+        if (counter === userPurchaseByYear.length - 1) {
+          setChangeAnoRigth(false);
+        } else {
+          setChangeAnoRigth(true);
+        }
+      }
+      setUserPurchases(groupByCompras(compratoFetch, titleYear));
+      setObjReceita(groupByCompras(receitas, titleYear));
 
-              addCompras(compras.mes);
-              setSelectAno(compras.ano);
-              if (compras.ano.length > 1) {
-                if (titleAno === "") {
-                  setTitleAno(anoTitle);
-                }
-                setChangeAnoRigth(true);
-                setChangeAnoLeft(true);
-              } else {
-                setTitleAno(anoTitle);
-              }
-            });
-          }
-        );
-      })();
-      load();
+      // load();
     }
-  }, [titleAno]); // eslint-disable-line
+  }, [titleYear]); // eslint-disable-line
   return (
     <Segment.Group horizontal>
       <Segment>
@@ -96,7 +117,7 @@ export default function Cabecalho() {
         />
       </Segment>
       <Segment textAlign="center">
-        <Header as="h3" color="black" content={!detalhes ? titleAno : "Mes"} />
+        <Header as="h3" color="black" content={!detalhes ? titleYear : "Mes"} />
       </Segment>
       <Segment>
         <Button

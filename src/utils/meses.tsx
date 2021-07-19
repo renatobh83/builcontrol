@@ -1,4 +1,4 @@
-export const Meses = () => {
+export const Meses = (keyValue) => {
   const meses = [
     { key: 0, value: "Janeiro" },
     { key: 1, value: "Fevereiro" },
@@ -13,5 +13,5 @@ export const Meses = () => {
     { key: 10, value: "Novembro" },
     { key: 11, value: "Dezembro" },
   ];
-  return meses;
+  return meses[keyValue].value;
 };

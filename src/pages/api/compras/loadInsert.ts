@@ -9,23 +9,7 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
   switch (method) {
     case "GET":
       try {
-        const compras = await Compras.aggregate([
-          {
-            $match: request.query,
-          },
-
-          {
-            $group: {
-              _id: {
-                ano: "$ano",
-                mes: "$mes",
-              },
-              Compras: { $push: "$$ROOT" },
-              total: { $sum: "$valor" },
-            },
-          },
-        ]);
-
+        const compras = await Compras.find({});
         response.status(200).json({ success: true, data: compras });
       } catch (error) {
         response.status(400).json({ success: false });
@@ -34,10 +18,9 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
     case "POST":
       try {
         const compra = await comprasController.create(request.body);
-        console.log(compra);
+
         return response.status(200).json({ success: true, data: compra });
       } catch (error) {
-        console.log(error);
         response.status(400).json({ success: false });
       }
       break;

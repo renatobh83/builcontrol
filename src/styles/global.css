@@ -29,6 +29,7 @@ body {
 }
 .opacity0 {
   opacity: 0;
+  cursor: none;
 }
 .opacity100 {
   opacity: 100;

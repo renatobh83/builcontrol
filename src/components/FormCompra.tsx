@@ -9,7 +9,7 @@ import {
   Divider,
 } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
-import { converteDate, MesCompras } from "../utils/filterDates";
+import { converteDate, groupByCompras, MesCompras } from "../utils/filterDates";
 import { useUser } from "@auth0/nextjs-auth0";
 
 import CurrencyFormat from "react-currency-format";
@@ -30,7 +30,8 @@ interface IDataValues {
   formaPagamento: string;
 }
 export default function FormCompra() {
-  const { isActive, toggleActive, addCompras } = useAppContext();
+  const { isActive, toggleActive, dataFetch } = useAppContext();
+
   const { user } = useUser();
   const [categoria, setCategoria] = useState("");
   const [formaPagamento, setFormaPagamento] = useState("");
@@ -108,12 +109,8 @@ export default function FormCompra() {
         ]);
         setIsChecked(false);
         fetch(`/api/compras/loadInsert?user=${user?.sub}`).then((response) => {
-          response.json().then((dadosCompra) => {
-            const compras = MesCompras(
-              dadosCompra,
-              getYear(new Date(converteDate(data))).toString()
-            );
-            addCompras(compras.mes);
+          response.json().then(({ data }) => {
+            dataFetch(data);
             toggleActive();
           });
         });

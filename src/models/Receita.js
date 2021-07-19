@@ -12,7 +12,7 @@ const ReceitaSchema = new mongoose.Schema(
       type: Decimal128,
       required: true,
     },
-    userId: {
+    user: {
       type: String,
     },
     mes: {

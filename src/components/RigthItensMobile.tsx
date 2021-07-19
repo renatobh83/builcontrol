@@ -1,4 +1,4 @@
-import { Item, Container, Grid } from "semantic-ui-react";
+import { Item, Grid } from "semantic-ui-react";
 import { format } from "date-fns";
 import { load } from "./Cabecalho";
 interface IItemProps {

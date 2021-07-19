@@ -1,4 +1,5 @@
 import Receitas from "../../../../models/Receita";
+
 interface ICreateReceita {
   data: string;
   valor: string;
@@ -17,7 +18,6 @@ class ReceitaControoler {
 
   async loadReceita(params: any) {
     try {
-      console.log(params);
       const receitas = await Receitas.find(params);
       return receitas;
     } catch (error) {
