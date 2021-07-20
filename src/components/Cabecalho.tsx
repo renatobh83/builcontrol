@@ -5,11 +5,7 @@ import { Header, Segment, Button, Popup } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
 
 import { useUser } from "@auth0/nextjs-auth0";
-import {
-  findAnoInArray,
-  groupByCompras,
-  comprasByAno,
-} from "../utils/filterDates";
+import { groupByCompras } from "../utils/filterDates";
 export function load(fin?: any) {}
 
 export default function Cabecalho() {
@@ -61,22 +57,8 @@ export default function Cabecalho() {
 
   useEffect(() => {
     if (user) {
-      if (userPurchases.length === 0) {
-        (async () => {
-          const response = await fetch(
-            `/api/compras/loadInsert?user=${user?.sub}`
-          );
-          const { data } = await response.json();
-          dataFetch(data);
-        })();
-        (async () => {
-          const response = await fetch(
-            `/api/receitas/receita?user=${user?.sub}`
-          );
-          const { data } = await response.json();
-          addReceitaFetch(data);
-        })();
-      }
+      setUserPurchases(groupByCompras(compratoFetch, titleYear));
+      setObjReceita(groupByCompras(receitas, titleYear));
       if (userPurchaseByYear.length > 1) {
         if (counter === userPurchaseByYear.length - 1) {
           setChangeAnoRigth(false);
@@ -84,9 +66,6 @@ export default function Cabecalho() {
           setChangeAnoRigth(true);
         }
       }
-      setUserPurchases(groupByCompras(compratoFetch, titleYear));
-      setObjReceita(groupByCompras(receitas, titleYear));
-
       // load();
     }
   }, [titleYear]); // eslint-disable-line
