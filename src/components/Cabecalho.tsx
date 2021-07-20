@@ -56,6 +56,7 @@ export default function Cabecalho() {
   };
 
   useEffect(() => {
+    // console.log(user);
     if (user) {
       setUserPurchases(groupByCompras(compratoFetch, titleYear));
       setObjReceita(groupByCompras(receitas, titleYear));

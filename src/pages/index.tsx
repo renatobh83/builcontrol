@@ -1,6 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser, getSession } from "@auth0/nextjs-auth0";
 import { useAppContext } from "../context/AppContext";
 
 import { Container, Button, Popup } from "semantic-ui-react";
@@ -10,11 +10,15 @@ import FormCompra from "../components/FormCompra";
 import { useEffect } from "react";
 import FormReceita from "../components/FormReceita";
 
-export default function Home() {
+export default function Home({ data }) {
   const { user } = useUser();
-  const { isActive, toggleActive } = useAppContext();
-
-  useEffect(() => {}, []);
+  const { isActive, toggleActive, dataFetch, addReceitaFetch } =
+    useAppContext();
+  console.log(data);
+  useEffect(() => {
+    dataFetch(data.compras);
+    addReceitaFetch(data.receitas);
+  }, []);
   if (user) {
     return (
       <Container>
@@ -44,10 +48,9 @@ export default function Home() {
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  const { req } = context;
-
-  const cookie = req.cookies;
-  if (cookie.appSession === undefined) {
+  const { req, res } = context;
+  const session = getSession(req, res);
+  if (!session) {
     return {
       redirect: {
         destination: `${process.env.BASE_URL}/api/auth/login`,
@@ -55,5 +58,11 @@ export const getServerSideProps: GetServerSideProps = async (
       },
     };
   }
-  return { props: {} };
+  const userLogin = session.user.sub;
+  const response = await fetch(
+    `http://localhost:3000/api/compras/loadInsert?user=${userLogin}`
+  );
+  const { data } = await response.json();
+
+  return { props: { data } };
 };

@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Compras from "../../../models/Compras";
 import dbConnect from "../../../utils/dbConnect";
+import { receitaController } from "../receitas/contoller/receitaController";
 import { comprasController } from "./controller/comprasController";
 dbConnect();
 export default async (request: NextApiRequest, response: NextApiResponse) => {
@@ -9,8 +10,13 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
   switch (method) {
     case "GET":
       try {
-        const compras = await Compras.find({});
-        response.status(200).json({ success: true, data: compras });
+        const compras = await Compras.find(request.query);
+        const receitas = await receitaController.loadReceita(request.query);
+        const dataToRespose = {
+          compras,
+          receitas,
+        };
+        response.status(200).json({ success: true, data: dataToRespose });
       } catch (error) {
         response.status(400).json({ success: false });
       }
