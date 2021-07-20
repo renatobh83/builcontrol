@@ -30,7 +30,7 @@ interface IDataValues {
   formaPagamento: string;
 }
 export default function FormCompra() {
-  const { isActive, toggleActive, dataFetch } = useAppContext();
+  const { isActive, toggleActive, dataFetch, compratoFetch } = useAppContext();
 
   const { user } = useUser();
   const [categoria, setCategoria] = useState("");
@@ -91,31 +91,28 @@ export default function FormCompra() {
       formaPagamento,
     };
 
-    fetch("/api/compras/loadInsert", {
+    const insertResponse = await fetch("/api/compras/loadInsert", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dataToSave),
-    }).then((res) => {
-      if (res.status === 200) {
-        reset([
-          setDescr,
-          setCategoria,
-          setValor,
-          setData,
-          setFormaPagamento,
-          setParcelas,
-        ]);
-        setIsChecked(false);
-        fetch(`/api/compras/loadInsert?user=${user?.sub}`).then((response) => {
-          response.json().then(({ data }) => {
-            dataFetch(data);
-            toggleActive();
-          });
-        });
-      }
     });
+    const compraJson = await insertResponse.json();
+
+    compratoFetch.push(compraJson.data);
+    dataFetch(compratoFetch);
+
+    reset([
+      setDescr,
+      setCategoria,
+      setValor,
+      setData,
+      setFormaPagamento,
+      setParcelas,
+    ]);
+    setIsChecked(false);
+    toggleActive();
   }
   const options = [
     { key: "vista", value: "vista", text: "A vista" },

@@ -9,6 +9,7 @@ export default function Itens({ type, valor }: IItemProps) {
 
   let despesaTotal = 0;
   let receitaTotal = 0;
+
   if (type === "Despesa") {
     if (valor) {
       userPurchases[valor].map((obj: any) => {
@@ -16,10 +17,12 @@ export default function Itens({ type, valor }: IItemProps) {
       });
     }
   } else {
-    if (objReceita[valor]) {
-      objReceita[valor].map((obj: any) => {
-        receitaTotal = receitaTotal + Number(obj.valor.$numberDecimal);
-      });
+    if (valor) {
+      if (objReceita[valor]) {
+        objReceita[valor].map((obj: any) => {
+          receitaTotal = receitaTotal + Number(obj.valor.$numberDecimal);
+        });
+      }
     }
   }
 

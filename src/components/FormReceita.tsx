@@ -10,7 +10,8 @@ interface IPropsValue {
   value: string;
 }
 export default function FormReceita() {
-  const { isActiveModalReceita, toggleReceita, receitas } = useAppContext();
+  const { isActiveModalReceita, toggleReceita, receitas, addReceitaFetch } =
+    useAppContext();
   const { user } = useUser();
   const [valor, setValor] = useState("");
   const [data, setData] = useState("");
@@ -33,7 +34,9 @@ export default function FormReceita() {
       },
       body: JSON.stringify(dataToSave),
     });
-
+    const receita = await dataResponse.json();
+    receitas.push(receita.data);
+    addReceitaFetch(receitas);
     toggleReceita();
   }
 

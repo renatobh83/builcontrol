@@ -1,10 +1,16 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import {
   comprasByAno,
   findAnoInArray,
   groupByCompras,
 } from "../utils/filterDates";
-
+import { useUser } from "@auth0/nextjs-auth0";
 interface AppProviderProps {
   children: ReactNode;
 }
@@ -40,12 +46,12 @@ export function Provider({ children }: AppProviderProps) {
   const [detalhes, setDetalhes] = useState(false);
   const [isActiveModalReceita, setisActiveModalReceita] = useState(false);
   const [receitas, setReceitas] = useState([]);
-  const [objReceita, setObjReceita] = useState({});
+  const [objReceita, setObjReceita] = useState([]);
   const [compratoFetch, setComprastoFetch] = useState([]);
   const [userPurchases, setUserPurchases] = useState([]);
   const [userPurchaseByYear, setUserPurchaseByYear] = useState<string[]>([]);
   const [titleYear, setTitleYear] = useState("");
-
+  const { user } = useUser();
   // form cadastro nova compra
   function toggleActive() {
     setIsActive(!isActive);
@@ -63,8 +69,8 @@ export function Provider({ children }: AppProviderProps) {
   function addReceitaFetch(data: any) {
     const receitaAno = comprasByAno(data);
     const receitas = groupByCompras(data, findAnoInArray(receitaAno));
-    setReceitas(data);
     setObjReceita(receitas);
+    setReceitas(data);
   }
 
   // setComprasFetch control years
@@ -83,6 +89,22 @@ export function Provider({ children }: AppProviderProps) {
       setTitleYear(findAnoInArray(purchasesInYears));
     }
   }
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(`/api/compras/loadInsert?user=${user?.sub}`);
+      const { data } = await response.json();
+      dataFetch(data);
+      console.log(data);
+      // const responseFetch = await fetch(
+      //   `/api/receitas/receita?user=${user?.sub}`
+      // );
+      // const respnseJson = await responseFetch.json();
+      // addReceitaFetch(respnseJson.data);
+    })();
+
+    console.log("efect in provider");
+  }, []);
 
   const objValues = {
     toggleActive,

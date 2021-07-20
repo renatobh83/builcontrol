@@ -37,8 +37,7 @@ export default function CardMes() {
       `/api/receitas/receita?mes=${mes}&ano=${titleYear}`
     );
     const receitas = await response.json();
-    // console.log(groupByCompras(receitas, anoAtivo));
-    // setReceitas(receitas.data);
+    setReceitas(receitas.data);
     toggleReceita();
   }
 
