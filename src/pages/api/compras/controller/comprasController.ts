@@ -64,20 +64,21 @@ class ComprasController {
       throw new Error(error.messsage);
     }
   }
-  async findByAno(params: any) {
+  async totalDespesa(params: any) {
     const { user, ano } = params;
     const compras = await Compras.aggregate([
       {
-        $match: { ano },
+        $match: { user },
       },
 
       {
         $group: {
           _id: {
+            ano: "$ano",
             mes: "$mes",
           },
 
-          Compras: { $push: "$$ROOT" },
+          totalComprasMes: { $sum: "$valor" },
         },
       },
     ]);

@@ -34,8 +34,13 @@ export default function CardMes() {
 
   async function receitaAdd(mes) {
     if (Object.keys(objReceita).length > 0) {
-      const receitaMes = objReceita[mes];
-      setReceitaToForm(receitaMes);
+      if (objReceita[mes]) {
+        const receitaMes = objReceita[mes];
+        console.log(objReceita);
+        setReceitaToForm(receitaMes);
+      } else {
+        setReceitaToForm([]);
+      }
     }
     toggleReceita();
   }

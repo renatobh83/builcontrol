@@ -15,6 +15,7 @@ export default function FormReceita() {
     toggleReceita,
     receitas,
     receitaToForm,
+    setReceitaToForm,
     addReceitaFetch,
   } = useAppContext();
   const { user } = useUser();
@@ -23,6 +24,17 @@ export default function FormReceita() {
 
   function handleData(e: any, { value }: IPropsValue) {
     setData(value);
+  }
+
+  async function handleDeleteReceita(e: any, { value }: IPropsValue) {
+    const response = await fetch(`/api/receitas/receita?_id=${value._id}`, {
+      method: "DELETE",
+    });
+    await response.json();
+    const newReceita = receitas.filter((id) => id._id !== value._id);
+    addReceitaFetch(newReceita);
+
+    toggleReceita();
   }
   async function handleSubmit() {
     const dataToSave = {
@@ -95,7 +107,14 @@ export default function FormReceita() {
                 {receitaToForm.map((receita) => (
                   <List.Item key={receita.id}>
                     {receita.valor.$numberDecimal}
-                    <Button basic icon="delete" size="mini" floated="right" />
+                    <Button
+                      basic
+                      icon="delete"
+                      size="mini"
+                      floated="right"
+                      onClick={handleDeleteReceita}
+                      value={receita}
+                    />
                   </List.Item>
                 ))}
               </List>

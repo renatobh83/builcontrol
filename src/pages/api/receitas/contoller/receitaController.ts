@@ -25,8 +25,31 @@ class ReceitaControoler {
       throw new Error(error.message);
     }
   }
+  async totalReceita(params: any) {
+    const { user } = params;
+    const compras = await Receitas.aggregate([
+      {
+        $match: { user },
+      },
 
-  async deleteReceita(id: string) {}
+      {
+        $group: {
+          _id: {
+            ano: "$ano",
+            mes: "$mes",
+          },
+
+          totalComprasMes: { $sum: "$valor" },
+        },
+      },
+    ]);
+    return compras;
+  }
+
+  async deleteReceita(id: any) {
+    const apagar = await Receitas.deleteOne(id);
+    return apagar.deletedCount;
+  }
 }
 
 const receitaController = new ReceitaControoler();

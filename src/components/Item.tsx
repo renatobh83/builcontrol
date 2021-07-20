@@ -6,6 +6,7 @@ interface IItemProps {
   type: string;
   valor: string;
 }
+
 export default function Itens({ type, valor }: IItemProps) {
   const { userPurchases, objReceita } = useAppContext();
   const [despesa, setDespesa] = useState(0);
@@ -17,14 +18,14 @@ export default function Itens({ type, valor }: IItemProps) {
   useEffect(() => {
     switch (type) {
       case "Despesa":
-        userPurchases[valor].map((obj: any) => {
+        userPurchases[valor].forEach((obj: any) => {
           despesaTotal = despesaTotal + Number(obj.valor.$numberDecimal);
           setDespesa(despesaTotal);
         });
         break;
       case "Receita":
         if (objReceita[valor]) {
-          objReceita[valor].map((obj: any) => {
+          objReceita[valor].forEach((obj: any) => {
             receitaTotal = receitaTotal + Number(obj.valor.$numberDecimal);
 
             setReceita(receitaTotal);

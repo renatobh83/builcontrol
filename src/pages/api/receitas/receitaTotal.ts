@@ -6,17 +6,10 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
   const { method } = request;
 
   switch (method) {
-    case "POST":
-      const receita = await receitaController.create(request.body);
-      return response.status(200).json({ success: true, data: receita });
-      break;
     case "GET":
-      const receitas = await receitaController.loadReceita(request.query);
+      const receitas = await receitaController.totalReceita(request.query);
       return response.status(200).json({ success: true, data: receitas });
-    case "DELETE":
-      await receitaController.deleteReceita(request.query);
-
-      return response.status(200).json({ success: true, data: 1 });
+      break;
 
     default:
       break;

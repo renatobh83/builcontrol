@@ -72,6 +72,7 @@ export function Provider({ children }: AppProviderProps) {
   function addReceitaFetch(data: any) {
     const receitaAno = comprasByAno(data);
     const receitas = groupByCompras(data, findAnoInArray(receitaAno));
+
     setObjReceita(receitas);
     setReceitas(data);
   }
