@@ -1,6 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
-import { useUser, getSession } from "@auth0/nextjs-auth0";
+import { getSession } from "@auth0/nextjs-auth0";
 import { useAppContext } from "../context/AppContext";
 
 import { Container, Button, Popup } from "semantic-ui-react";
@@ -10,40 +10,39 @@ import FormCompra from "../components/FormCompra";
 import { useEffect } from "react";
 import FormReceita from "../components/FormReceita";
 
-export default function Home({ data }) {
-  const { user } = useUser();
-  const { isActive, toggleActive, dataFetch, addReceitaFetch } =
-    useAppContext();
-  console.log(data);
+interface IDataProps {
+  compras: string[];
+  receitas: string[];
+}
+export default function Home({ compras, receitas }: IDataProps) {
+  const { toggleActive, dataFetch, addReceitaFetch } = useAppContext();
+
   useEffect(() => {
-    dataFetch(data.compras);
-    addReceitaFetch(data.receitas);
+    dataFetch(compras);
+    addReceitaFetch(receitas);
   }, []);
-  if (user) {
-    return (
-      <Container>
-        {/* {!isActive && <CardMes />} */}
-        <CardMes />
-        <FormCompra />
-        <FormReceita />
-        <div className="divAnimate">
-          <Popup
-            content="Lançar compra"
-            trigger={
-              <Button
-                icon="add"
-                size="huge"
-                primary
-                circular
-                onClick={toggleActive}
-              />
-            }
-          />
-        </div>
-      </Container>
-    );
-  }
-  return <div></div>;
+
+  return (
+    <Container>
+      <CardMes />
+      <FormCompra />
+      <FormReceita />
+      <div className="divAnimate">
+        <Popup
+          content="Lançar compra"
+          trigger={
+            <Button
+              icon="add"
+              size="huge"
+              primary
+              circular
+              onClick={toggleActive}
+            />
+          }
+        />
+      </div>
+    </Container>
+  );
 }
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
@@ -60,9 +59,9 @@ export const getServerSideProps: GetServerSideProps = async (
   }
   const userLogin = session.user.sub;
   const response = await fetch(
-    `http://localhost:3000/api/compras/loadInsert?user=${userLogin}`
+    `${process.env.BASE_URL}/api/compras/loadInsert?user=${userLogin}`
   );
   const { data } = await response.json();
 
-  return { props: { data } };
+  return { props: { compras: data.compras, receitas: data.receitas } };
 };

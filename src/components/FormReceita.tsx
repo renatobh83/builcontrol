@@ -10,8 +10,13 @@ interface IPropsValue {
   value: string;
 }
 export default function FormReceita() {
-  const { isActiveModalReceita, toggleReceita, receitas, addReceitaFetch } =
-    useAppContext();
+  const {
+    isActiveModalReceita,
+    toggleReceita,
+    receitas,
+    receitaToForm,
+    addReceitaFetch,
+  } = useAppContext();
   const { user } = useUser();
   const [valor, setValor] = useState("");
   const [data, setData] = useState("");
@@ -87,7 +92,7 @@ export default function FormReceita() {
             </Grid.Column>
             <Grid.Column>
               <List>
-                {receitas.map((receita) => (
+                {receitaToForm.map((receita) => (
                   <List.Item key={receita.id}>
                     {receita.valor.$numberDecimal}
                     <Button basic icon="delete" size="mini" floated="right" />

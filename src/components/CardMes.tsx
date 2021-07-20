@@ -27,17 +27,16 @@ export default function CardMes() {
     detalhes,
     toggleDetalhes,
     toggleReceita,
-    setReceitas,
-    titleYear,
+    setReceitaToForm,
     userPurchases,
+    objReceita,
   } = useAppContext();
 
   async function receitaAdd(mes) {
-    const response = await fetch(
-      `/api/receitas/receita?mes=${mes}&ano=${titleYear}`
-    );
-    const receitas = await response.json();
-    setReceitas(receitas.data);
+    if (Object.keys(objReceita).length > 0) {
+      const receitaMes = objReceita[mes];
+      setReceitaToForm(receitaMes);
+    }
     toggleReceita();
   }
 

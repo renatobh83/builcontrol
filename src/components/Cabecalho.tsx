@@ -21,10 +21,10 @@ export default function Cabecalho() {
     addReceitaFetch,
     setUserPurchases,
     setObjReceita,
+
     receitas,
   } = useAppContext();
 
-  const { user } = useUser();
   const [changeAnoLeft, setChangeAnoLeft] = useState(false);
   const [changeAnoRigth, setChangeAnoRigth] = useState(false);
   const [counter, setCounter] = useState(0);
@@ -56,20 +56,18 @@ export default function Cabecalho() {
   };
 
   useEffect(() => {
-    // console.log(user);
-    if (user) {
-      setUserPurchases(groupByCompras(compratoFetch, titleYear));
-      setObjReceita(groupByCompras(receitas, titleYear));
-      if (userPurchaseByYear.length > 1) {
-        if (counter === userPurchaseByYear.length - 1) {
-          setChangeAnoRigth(false);
-        } else {
-          setChangeAnoRigth(true);
-        }
+    setUserPurchases(groupByCompras(compratoFetch, titleYear));
+    setObjReceita(groupByCompras(receitas, titleYear));
+    if (userPurchaseByYear.length > 1) {
+      if (counter === userPurchaseByYear.length - 1) {
+        setChangeAnoRigth(false);
+      } else {
+        setChangeAnoRigth(true);
       }
-      // load();
     }
+    // load();
   }, [titleYear]); // eslint-disable-line
+
   return (
     <Segment.Group horizontal>
       <Segment>
@@ -93,6 +91,7 @@ export default function Cabecalho() {
           floated="right"
           size="mini"
           basic
+          id="opacity0"
           onClick={anoSelectLeft}
         />
       </Segment>
@@ -105,6 +104,7 @@ export default function Cabecalho() {
           icon="angle right"
           size="mini"
           basic
+          id="opacity0"
           onClick={anoSelectRigth}
         />
 

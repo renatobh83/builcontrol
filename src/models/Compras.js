@@ -1,4 +1,5 @@
 import { Decimal128 } from "mongodb";
+import Receita from "./Receita";
 
 const mongoose = require("mongoose");
 

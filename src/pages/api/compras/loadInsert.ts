@@ -11,6 +11,7 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
     case "GET":
       try {
         const compras = await Compras.find(request.query);
+
         const receitas = await receitaController.loadReceita(request.query);
         const dataToRespose = {
           compras,

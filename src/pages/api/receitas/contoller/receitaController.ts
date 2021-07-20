@@ -18,6 +18,7 @@ class ReceitaControoler {
 
   async loadReceita(params: any) {
     try {
+      console.log(params);
       const receitas = await Receitas.find(params);
       return receitas;
     } catch (error) {

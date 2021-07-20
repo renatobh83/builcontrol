@@ -27,22 +27,26 @@ function MesCompras(compras: any, anoSelect: any) {
 }
 
 const groupby = (array: any[], key: string) => {
-  return array.reduce((result, currentValue) => {
-    (result[currentValue[key]] = result[currentValue[key]] || []).push(
-      currentValue
-    );
-    return result;
-  }, {});
+  if (array) {
+    return array.reduce((result, currentValue) => {
+      (result[currentValue[key]] = result[currentValue[key]] || []).push(
+        currentValue
+      );
+      return result;
+    }, {});
+  } else {
+    return {};
+  }
 };
 
-function groupByCompras(array: string | any[], filterAno = "2021") {
-  if (array.length === 0) return [];
+function groupByCompras(array: string | any[], filterAno = "2022") {
+  if (array.length === 0) return {};
   if (filterAno) {
     const ano = groupby(array, "ano");
     const mes = groupby(ano[filterAno], "mes");
     return mes;
   }
-  return [];
+  return {};
 }
 
 function comprasByAno(arrayCompras: any): string[] {
@@ -103,4 +107,5 @@ export {
   findAnoInArray,
   groupByCompras,
   comprasByAno,
+  groupby,
 };
