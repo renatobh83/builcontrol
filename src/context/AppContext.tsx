@@ -5,6 +5,8 @@ import {
   useEffect,
   useState,
 } from "react";
+import { GetServerSideProps } from "next";
+import { getSession } from "@auth0/nextjs-auth0";
 import {
   comprasByAno,
   findAnoInArray,
@@ -51,7 +53,7 @@ export function Provider({ children }: AppProviderProps) {
   const [userPurchases, setUserPurchases] = useState([]);
   const [userPurchaseByYear, setUserPurchaseByYear] = useState<string[]>([]);
   const [titleYear, setTitleYear] = useState("");
-  const { user } = useUser();
+  const { user, checkSession, isLoading, error } = useUser();
   // form cadastro nova compra
   function toggleActive() {
     setIsActive(!isActive);
@@ -91,17 +93,23 @@ export function Provider({ children }: AppProviderProps) {
   }
 
   useEffect(() => {
-    (async () => {
-      const response = await fetch(`/api/compras/loadInsert?user=${user?.sub}`);
-      const { data } = await response.json();
-      dataFetch(data);
-      console.log(data);
-      // const responseFetch = await fetch(
-      //   `/api/receitas/receita?user=${user?.sub}`
-      // );
-      // const respnseJson = await responseFetch.json();
-      // addReceitaFetch(respnseJson.data);
-    })();
+    console.log(error, isLoading);
+    if (user) {
+      (async () => {
+        console.log(user?.sub);
+        const response = await fetch(
+          `/api/compras/loadInsert?user=${user?.sub}`
+        );
+        const { data } = await response.json();
+        dataFetch(data);
+        console.log(data);
+        // const responseFetch = await fetch(
+        //   `/api/receitas/receita?user=${user?.sub}`
+        // );
+        // const respnseJson = await responseFetch.json();
+        // addReceitaFetch(respnseJson.data);
+      })();
+    }
 
     console.log("efect in provider");
   }, []);
@@ -133,4 +141,12 @@ export function Provider({ children }: AppProviderProps) {
   return (
     <AppContext.Provider value={objValues}>{children}</AppContext.Provider>
   );
+}
+export async function getServerSideProps(ctx) {
+  const { req, res } = ctx;
+  const session = getSession(req, res);
+  console.log(session);
+  return {
+    props: { user: session?.user ?? null },
+  };
 }
