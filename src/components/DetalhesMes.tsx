@@ -68,18 +68,32 @@ export default function DetalhesMes() {
                           <span className="price">
                             R$ {compra.valor.$numberDecimal}{" "}
                           </span>
-                          {compra.numParcela && (
-                            <span className="stay">
-                              Parcelado {compra.numParcela} - {compra.parcelas}
-                            </span>
-                          )}
-                          {compra.recorrente != "" && (
-                            <span className="stay">Recorrente</span>
-                          )}
+
+                          <Grid.Row>
+                            {compra.numParcela && (
+                              <span className="stay">
+                                Parcelado {compra.numParcela} -{" "}
+                                {compra.parcelas}
+                              </span>
+                            )}
+                            {compra.recorrente && (
+                              <span className="stay">Recorrente</span>
+                            )}
+                          </Grid.Row>
+                          <Grid.Row>
+                            {compra.parcelas - compra.numParcela === 0
+                              ? ""
+                              : `Resta : ${
+                                  compra.valor.$numberDecimal *
+                                  (compra.parcelas - compra.numParcela)
+                                }`}
+                          </Grid.Row>
                         </Item.Meta>
                       </Item.Content>
                     </Item>
-                    <Grid.Column>{compra.categoria}</Grid.Column>
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Grid.Row>{compra.categoria}</Grid.Row>
                     <Divider />
                     <Button.Group size="mini">
                       <Button positive onClick={() => handleEditar(compra)}>
@@ -102,12 +116,6 @@ export default function DetalhesMes() {
                             <span className="price">
                               R$ {compra.valor.$numberDecimal}{" "}
                             </span>
-                            {compra.numParcela && (
-                              <span className="stay">
-                                Parcelado {compra.numParcela} -{" "}
-                                {compra.parcelas}
-                              </span>
-                            )}
                           </Item.Meta>
                           <Item.Description>
                             {compra.categoria}
@@ -116,7 +124,28 @@ export default function DetalhesMes() {
                       </Item>
                     </Item.Group>
                   </Grid.Column>
-                  {/* <Grid.Column>{compra.categoria}</Grid.Column> */}
+                  <Grid.Column>
+                    <Item.Description>
+                      {compra.numParcela && (
+                        <>
+                          <span className="stay">
+                            Parcelado {compra.numParcela} -{compra.parcelas}{" "}
+                          </span>
+                          <Grid.Row>
+                            {compra.parcelas - compra.numParcela === 0
+                              ? ""
+                              : `Resta : ${
+                                  compra.valor.$numberDecimal *
+                                  (compra.parcelas - compra.numParcela)
+                                }`}
+                          </Grid.Row>
+                        </>
+                      )}
+                      {compra.recorrente && (
+                        <span className="stay">Recorrente</span>
+                      )}
+                    </Item.Description>
+                  </Grid.Column>
                   <Grid.Column width="5">
                     <Button.Group>
                       <Button positive onClick={() => handleEditar(compra)}>

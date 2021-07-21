@@ -16,7 +16,6 @@ class ComprasController {
       recorrente,
       user,
     } = params;
-    console.log("recorrente", params);
 
     try {
       // lancemento parcelado
@@ -70,7 +69,6 @@ class ComprasController {
         compras.push(compraParcela);
         return compras;
       } else if (recorrente === "6" || recorrente === "12") {
-        console.log("recorrente");
         let dataRecorrente;
         let compras = [];
         let compraRecorrente;
@@ -98,7 +96,7 @@ class ComprasController {
       } else {
         // lancemento a vista
         let compra = await Compras.create(params);
-        console.log("avista");
+
         compra.identifier = uuid();
         compra.save();
         return compra;
