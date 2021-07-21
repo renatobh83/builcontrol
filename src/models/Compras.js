@@ -41,7 +41,10 @@ const ComprasSchema = new mongoose.Schema(
     identifier: {
       type: String,
     },
-
+    numParcela: {
+      type: String,
+      default: null,
+    },
     categoria: {
       type: String,
       required: true,

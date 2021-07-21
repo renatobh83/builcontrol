@@ -43,6 +43,7 @@ interface IContextValues {
   setObjReceita: (p: any) => void;
   setReceitaToForm: (p: any) => void;
   setEditarCompra: (p: any) => void;
+  setDetalhes: (p: any) => void;
 }
 
 export const AppContext = createContext({} as IContextValues);
@@ -113,6 +114,7 @@ export function Provider({ children }: AppProviderProps) {
     toggleReceita,
     setReceitas,
     receitas,
+    setDetalhes,
     isActiveModalReceita,
     detalhes,
     isActive,

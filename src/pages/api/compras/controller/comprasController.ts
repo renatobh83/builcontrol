@@ -20,6 +20,7 @@ class ComprasController {
     try {
       // lancemento parcelado
       if (parcelas && Number(parcelas) > 1) {
+        let counter = 2;
         let compras = [];
         let compraParcela;
         const idCompra = uuid();
@@ -35,6 +36,7 @@ class ComprasController {
             data: dataParcela,
             valor: valorParcela,
             descr,
+            numParcela: counter,
             ano: getYear(dataParcela).toString(),
             categoria,
             formaPagamento,
@@ -45,12 +47,14 @@ class ComprasController {
           };
           compraParcela = await Compras.create(dataToSave);
           compras.push(compraParcela);
+          counter++;
         } // Fim for das parcelas
         //  primeira pacela
         const dataToSave = {
           parcelas,
           data,
           ano,
+          numParcela: 1,
           valor: valorParcela,
           descr,
           categoria,
@@ -94,6 +98,10 @@ class ComprasController {
       },
     ]);
     return compras;
+  }
+  async deleteCompra(id: any) {
+    const apagar = await Compras.deleteMany(id);
+    return apagar.deletedCount;
   }
 }
 

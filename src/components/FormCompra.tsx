@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { getMonth, getYear } from "date-fns";
+import { useEffect, useState } from "react";
+import { format, getMonth, getYear } from "date-fns";
 import {
   Button,
   Checkbox,
@@ -9,7 +9,7 @@ import {
   Divider,
 } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
-import { converteDate, groupByCompras, MesCompras } from "../utils/filterDates";
+import { converteDate } from "../utils/filterDates";
 import { useUser } from "@auth0/nextjs-auth0";
 
 import CurrencyFormat from "react-currency-format";
@@ -66,7 +66,6 @@ export default function FormCompra() {
   };
   function exitModal() {
     setIsChecked(false);
-    toggleActive();
     reset([
       setDescr,
       setCategoria,
@@ -75,13 +74,13 @@ export default function FormCompra() {
       setFormaPagamento,
       setParcelas,
     ]);
+    toggleActive();
   }
 
-  const da = () => {
-    var curr = new Date();
-    curr.setDate(curr.getDate() + 3);
-    var date = curr.toISOString().substr(0, 10);
-  };
+  useEffect(() => {
+    if (edtiarCompra) {
+    }
+  }, []);
 
   async function handleSubmit() {
     if (categoria === "") return alert("Categoria não selecionada");
@@ -111,8 +110,9 @@ export default function FormCompra() {
     if (compraJson.data.length > 1) {
       compraJson.data.forEach((compra) => compratoFetch.push(compra));
       dataFetch(compratoFetch);
+    } else {
+      compratoFetch.push(compraJson.data);
     }
-    compratoFetch.push(compraJson.data);
 
     dataFetch(compratoFetch);
 
@@ -147,7 +147,7 @@ export default function FormCompra() {
               <Form.Input
                 placeholder="Compra"
                 label="Compra"
-                value={descr || edtiarCompra.descr}
+                value={descr}
                 onChange={handleDescricao}
                 required
               />
@@ -170,15 +170,15 @@ export default function FormCompra() {
             <Form.Group widths={3}>
               <Form.Input
                 type="date"
-                label="Data compra"
+                label="Data vencimento "
                 required
-                value={data || edtiarCompra.data}
+                value={data}
                 onChange={handleData}
               />
               <Form.Select
                 label="Forma pagamento"
                 required
-                value={formaPagamento || edtiarCompra.formaPagamento}
+                value={formaPagamento}
                 onChange={handleFormaPagamento}
                 options={options}
                 placeholder="Forma pagamento"

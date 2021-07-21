@@ -31,6 +31,14 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
         response.status(400).json({ success: false });
       }
       break;
+    case "DELETE":
+      try {
+        const compra = await comprasController.deleteCompra(request.query);
+        return response.status(200).json({ success: true, data: compra });
+      } catch (error) {
+        response.status(400).json({ success: false });
+      }
+      break;
     default:
       response.status(400).json({ success: true });
       break;

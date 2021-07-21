@@ -13,5 +13,9 @@ export const Meses = (keyValue) => {
     { key: 10, value: "Novembro" },
     { key: 11, value: "Dezembro" },
   ];
-  return meses[keyValue].value;
+  if (keyValue !== undefined) {
+    return meses[keyValue].value;
+  } else {
+    return "";
+  }
 };

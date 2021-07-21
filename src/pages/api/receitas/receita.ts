@@ -15,7 +15,6 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
       return response.status(200).json({ success: true, data: receitas });
     case "DELETE":
       await receitaController.deleteReceita(request.query);
-
       return response.status(200).json({ success: true, data: 1 });
 
     default:
