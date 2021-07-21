@@ -7,24 +7,46 @@ import {
   Header,
   Modal,
   Icon,
+  Item,
   Divider,
   Grid,
 } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
 import { groupby } from "../utils/filterDates";
 export default function DetalhesMes() {
-  const { comprasMes, toggleActive, setEditarCompra } = useAppContext();
+  const {
+    comprasMes,
+    toggleActive,
+    setEditarCompra,
+    compratoFetch,
+    setDetalhes,
+    setComprastoFetch,
+    dataFetch,
+  } = useAppContext();
   const [open, setOpen] = useState(false);
   const handleEditar = (compra) => {
-    console.log(compra);
     if (compra.formaPagamento !== "credito") {
-      setEditarCompra(compra);
-      toggleActive();
+      // setEditarCompra(compra);
+      // toggleActive();
     } else {
       setOpen(true);
     }
   };
-  useEffect(() => {}, []);
+
+  const handleApagar = async (id) => {
+    if (id.numParcela > 1) return setOpen(true);
+    await fetch(`/api/compras/loadInsert?identifier=${id.identifier}`, {
+      method: "DELETE",
+    });
+    const newArray = compratoFetch.filter(
+      (idCompra) => idCompra.identifier !== id.identifier
+    );
+
+    setComprastoFetch(newArray);
+    dataFetch(newArray);
+    setDetalhes(false);
+  };
+
   return (
     <>
       {Object.keys(groupby(comprasMes, "data")).map((dataCompra) => (
@@ -47,22 +69,46 @@ export default function DetalhesMes() {
                         Editar
                       </Button>
                       <Button.Or text="Ou" />
-                      <Button negative>Apagar</Button>
+                      <Button negative onClick={() => handleApagar(compra)}>
+                        Apagar
+                      </Button>
                     </Button.Group>
                   </Grid.Column>
                 </Grid.Row>
                 <Grid.Row only="computer tablet">
                   <Grid.Column>
-                    {compra.descr} - R$ {compra.valor.$numberDecimal}
+                    <Item.Group>
+                      <Item>
+                        <Item.Content>
+                          <Item.Header>{compra.descr}</Item.Header>
+                          <Item.Meta>
+                            <span className="price">
+                              R$ {compra.valor.$numberDecimal}{" "}
+                            </span>
+                            {compra.numParcela && (
+                              <span className="stay">
+                                Parcelado {compra.numParcela} -{" "}
+                                {compra.parcelas}
+                              </span>
+                            )}
+                          </Item.Meta>
+                          <Item.Description>
+                            {compra.categoria}
+                          </Item.Description>
+                        </Item.Content>
+                      </Item>
+                    </Item.Group>
                   </Grid.Column>
-                  <Grid.Column>{compra.categoria}</Grid.Column>
+                  {/* <Grid.Column>{compra.categoria}</Grid.Column> */}
                   <Grid.Column width="5">
                     <Button.Group>
                       <Button positive onClick={() => handleEditar(compra)}>
                         Editar
                       </Button>
                       <Button.Or text="Ou" />
-                      <Button negative>Apagar</Button>
+                      <Button negative onClick={() => handleApagar(compra)}>
+                        Apagar{" "}
+                      </Button>
                     </Button.Group>
                   </Grid.Column>
                 </Grid.Row>
