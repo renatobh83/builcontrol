@@ -72,7 +72,6 @@ export function Provider({ children }: AppProviderProps) {
   function addReceitaFetch(data: any) {
     const receitaAno = comprasByAno(data);
     const receitas = groupByCompras(data, findAnoInArray(receitaAno));
-
     setObjReceita(receitas);
     setReceitas(data);
   }
@@ -83,6 +82,7 @@ export function Provider({ children }: AppProviderProps) {
     const purchases = groupByCompras(data, findAnoInArray(purchasesInYears));
     setUserPurchases(purchases);
     setComprastoFetch(data);
+
     setUserPurchaseByYear(purchasesInYears);
 
     if (purchasesInYears.length > 1) {

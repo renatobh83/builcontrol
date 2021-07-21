@@ -1,7 +1,7 @@
 import { getYear } from "date-fns";
 import { addMonths, getMonth } from "date-fns/";
 import Compras from "../../../../models/Compras";
-
+import { v4 as uuid } from "uuid";
 class ComprasController {
   async create(params: any) {
     let compra;
@@ -20,6 +20,9 @@ class ComprasController {
     try {
       // lancemento parcelado
       if (parcelas && Number(parcelas) > 1) {
+        let compras = [];
+        let compraParcela;
+        const idCompra = uuid();
         const valorParcela = (parseFloat(valor) / Number(parcelas)).toFixed(2);
         let dataParcela;
         // for parcelas
@@ -38,8 +41,10 @@ class ComprasController {
             mes: getMonth(dataParcela).toString(),
             recorrente,
             user,
+            identifier: idCompra,
           };
-          compra = await Compras.create(dataToSave);
+          compraParcela = await Compras.create(dataToSave);
+          compras.push(compraParcela);
         } // Fim for das parcelas
         //  primeira pacela
         const dataToSave = {
@@ -53,11 +58,17 @@ class ComprasController {
           mes,
           recorrente,
           user,
+          identifier: idCompra,
         };
-        compra = await Compras.create(dataToSave);
+        compraParcela = await Compras.create(dataToSave);
+
+        compras.push(compraParcela);
+        return compras;
       } else {
         // lancemento a vista
         compra = await Compras.create(params);
+        compra.identifier = uuid();
+        compra.save();
       }
       return compra;
     } catch (error) {

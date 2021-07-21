@@ -33,7 +33,7 @@ export default function FormReceita() {
     await response.json();
     const newReceita = receitas.filter((id) => id._id !== value._id);
     addReceitaFetch(newReceita);
-
+    setReceitaToForm(newReceita);
     toggleReceita();
   }
   async function handleSubmit() {
@@ -155,7 +155,14 @@ export default function FormReceita() {
                 {receitas.map((receita) => (
                   <List.Item key={receita.id}>
                     {receita.valor.$numberDecimal}
-                    <Button basic icon="delete" size="mini" floated="right" />
+                    <Button
+                      basic
+                      icon="delete"
+                      size="mini"
+                      floated="right"
+                      onClick={handleDeleteReceita}
+                      value={receita}
+                    />
                   </List.Item>
                 ))}
               </List>

@@ -39,8 +39,8 @@ const groupby = (array: any[], key: string) => {
   }
 };
 
-function groupByCompras(array: string | any[], filterAno = "2022") {
-  if (array.length === 0) return {};
+function groupByCompras(array: string | any[], filterAno = "2021") {
+  if (array.length === 0) return [];
   if (filterAno) {
     const ano = groupby(array, "ano");
     const mes = groupby(ano[filterAno], "mes");

@@ -38,6 +38,9 @@ const ComprasSchema = new mongoose.Schema(
       type: String,
       ref: "Users",
     },
+    identifier: {
+      type: String,
+    },
 
     categoria: {
       type: String,

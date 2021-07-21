@@ -15,7 +15,8 @@ interface IDataProps {
   receitas: string[];
 }
 export default function Home({ compras, receitas }: IDataProps) {
-  const { toggleActive, dataFetch, addReceitaFetch } = useAppContext();
+  const { toggleActive, dataFetch, addReceitaFetch, userPurchases } =
+    useAppContext();
 
   useEffect(() => {
     dataFetch(compras);

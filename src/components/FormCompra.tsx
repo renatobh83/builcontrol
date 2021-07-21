@@ -100,7 +100,12 @@ export default function FormCompra() {
     });
     const compraJson = await insertResponse.json();
 
+    if (compraJson.data.length > 1) {
+      compraJson.data.forEach((compra) => compratoFetch.push(compra));
+      dataFetch(compratoFetch);
+    }
     compratoFetch.push(compraJson.data);
+
     dataFetch(compratoFetch);
 
     reset([
