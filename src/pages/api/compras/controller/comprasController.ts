@@ -4,7 +4,6 @@ import Compras from "../../../../models/Compras";
 import { v4 as uuid } from "uuid";
 class ComprasController {
   async create(params: any) {
-    let compra;
     const {
       parcelas,
       data,
@@ -17,6 +16,8 @@ class ComprasController {
       recorrente,
       user,
     } = params;
+    console.log("recorrente", params);
+
     try {
       // lancemento parcelado
       if (parcelas && Number(parcelas) > 1) {
@@ -68,9 +69,11 @@ class ComprasController {
 
         compras.push(compraParcela);
         return compras;
-      } else if (recorrente !== "") {
+      } else if (recorrente === "6" || recorrente === "12") {
+        console.log("recorrente");
         let dataRecorrente;
         let compras = [];
+        let compraRecorrente;
         const idCompra = uuid();
         for (let i = 1; i < Number(recorrente); i++) {
           dataRecorrente = addMonths(new Date(data), i);
@@ -88,17 +91,18 @@ class ComprasController {
             user,
             identifier: idCompra,
           };
-          compra = await Compras.create(dataToSave);
-          compras.push(compra);
+          compraRecorrente = await Compras.create(dataToSave);
+          compras.push(compraRecorrente);
         }
         return compras;
       } else {
         // lancemento a vista
-        compra = await Compras.create(params);
+        let compra = await Compras.create(params);
+        console.log("avista");
         compra.identifier = uuid();
         compra.save();
+        return compra;
       }
-      return compra;
     } catch (error) {
       throw new Error(error.messsage);
     }

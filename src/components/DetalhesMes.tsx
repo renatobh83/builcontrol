@@ -73,6 +73,9 @@ export default function DetalhesMes() {
                               Parcelado {compra.numParcela} - {compra.parcelas}
                             </span>
                           )}
+                          {compra.recorrente != "" && (
+                            <span className="stay">Recorrente</span>
+                          )}
                         </Item.Meta>
                       </Item.Content>
                     </Item>

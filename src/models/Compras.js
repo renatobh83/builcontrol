@@ -19,7 +19,7 @@ const ComprasSchema = new mongoose.Schema(
     },
     recorrente: {
       type: String,
-      required: true,
+      default: null,
     },
     parcelas: {
       type: String,

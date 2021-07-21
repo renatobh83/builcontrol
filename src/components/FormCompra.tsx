@@ -226,7 +226,6 @@ export default function FormCompra() {
                   radio
                   label="Limpar"
                   name="recorrente"
-                  value=""
                   checked={false}
                   onChange={handleOnChange}
                 />
