@@ -30,7 +30,8 @@ interface IDataValues {
   formaPagamento: string;
 }
 export default function FormCompra() {
-  const { isActive, toggleActive, dataFetch, compratoFetch } = useAppContext();
+  const { isActive, toggleActive, dataFetch, compratoFetch, edtiarCompra } =
+    useAppContext();
 
   const { user } = useUser();
   const [categoria, setCategoria] = useState("");
@@ -75,6 +76,13 @@ export default function FormCompra() {
       setParcelas,
     ]);
   }
+
+  const da = () => {
+    var curr = new Date();
+    curr.setDate(curr.getDate() + 3);
+    var date = curr.toISOString().substr(0, 10);
+  };
+
   async function handleSubmit() {
     if (categoria === "") return alert("Categoria não selecionada");
 
@@ -139,7 +147,7 @@ export default function FormCompra() {
               <Form.Input
                 placeholder="Compra"
                 label="Compra"
-                value={descr}
+                value={descr || edtiarCompra.descr}
                 onChange={handleDescricao}
                 required
               />
@@ -164,13 +172,13 @@ export default function FormCompra() {
                 type="date"
                 label="Data compra"
                 required
-                value={data}
+                value={data || edtiarCompra.data}
                 onChange={handleData}
               />
               <Form.Select
                 label="Forma pagamento"
                 required
-                value={formaPagamento}
+                value={formaPagamento || edtiarCompra.formaPagamento}
                 onChange={handleFormaPagamento}
                 options={options}
                 placeholder="Forma pagamento"

@@ -11,30 +11,30 @@ export default function Itens({ type, valor }: IItemProps) {
   const { userPurchases, objReceita } = useAppContext();
   const [despesa, setDespesa] = useState(0);
   const [receita, setReceita] = useState(0);
+  const [resto, setResto] = useState({});
+
   let despesaTotal = 0;
   let receitaTotal = 0;
-  useEffect(() => {
-    switch (type) {
-      case "Despesa":
-        userPurchases[valor].forEach((obj: any) => {
-          despesaTotal = despesaTotal + Number(obj.valor.$numberDecimal);
-          setDespesa(despesaTotal);
-        });
-        break;
-      case "Receita":
-        if (objReceita[valor]) {
-          objReceita[valor].forEach((obj: any) => {
-            receitaTotal = receitaTotal + Number(obj.valor.$numberDecimal);
-            setReceita(receitaTotal);
-          });
-        } else {
-          setReceita(0);
-        }
-      default:
-        break;
-    }
-  }, [objReceita, userPurchases]);
+  let sobra = 0;
 
+  const calcularValores = () => {
+    userPurchases[valor].forEach((obj: any) => {
+      despesaTotal = despesaTotal + Number(obj.valor.$numberDecimal);
+    });
+    if (objReceita[valor]) {
+      objReceita[valor].forEach((obj: any) => {
+        receitaTotal = receitaTotal + Number(obj.valor.$numberDecimal);
+      });
+    } else {
+      setReceita(0);
+    }
+
+    setDespesa(despesaTotal);
+    setReceita(receitaTotal);
+  };
+  useEffect(() => {
+    calcularValores();
+  }, [objReceita, userPurchases]);
   return (
     <Item.Group unstackable>
       <Item>

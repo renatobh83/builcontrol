@@ -36,7 +36,7 @@ export default function CardMes() {
     if (Object.keys(objReceita).length > 0) {
       if (objReceita[mes]) {
         const receitaMes = objReceita[mes];
-        console.log(objReceita);
+
         setReceitaToForm(receitaMes);
       } else {
         setReceitaToForm([]);
@@ -66,7 +66,7 @@ export default function CardMes() {
                       <Itens type="Despesa" valor={mes} />
                     </Grid.Column>
                     <Grid.Column>
-                      {/* <ItensRigth compras={mes.compra.Compras} /> */}
+                      <ItensRigth listCompra={mes} />
                     </Grid.Column>
                     <Grid.Column>
                       <Segment basic size="mini">
@@ -81,7 +81,12 @@ export default function CardMes() {
                     </Grid.Column>
                     <Grid.Column>
                       <Segment basic size="mini">
-                        <Button basic color="teal" onClick={toggleDetalhes}>
+                        <Button
+                          basic
+                          color="teal"
+                          value={mes}
+                          onClick={toggleDetalhes}
+                        >
                           Detalhes
                         </Button>
                       </Segment>
@@ -97,7 +102,7 @@ export default function CardMes() {
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row columns={2} only="mobile">
-                    {/* <ItensRigthMobile compras={mes.compra.Compras} /> */}
+                    <ItensRigth listCompra={mes} />
                   </Grid.Row>
                   <Grid.Row only="mobile">
                     <Grid.Column>
@@ -109,7 +114,12 @@ export default function CardMes() {
                     </Grid.Column>
                     <Grid.Column>
                       <Segment basic size="mini">
-                        <Button basic color="teal" onClick={toggleDetalhes}>
+                        <Button
+                          basic
+                          color="teal"
+                          value={mes}
+                          onClick={toggleDetalhes}
+                        >
                           Detalhes
                         </Button>
                       </Segment>

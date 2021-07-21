@@ -1,14 +1,22 @@
 import { Item, Grid } from "semantic-ui-react";
 import { format } from "date-fns";
 import { load } from "./Cabecalho";
+import { useAppContext } from "../context/AppContext";
+import { useEffect, useState } from "react";
 interface IItemProps {
   compras: any;
 }
 export default function ItensRigthMobile({ compras }: IItemProps) {
+  const { userPurchases } = useAppContext();
+  const [compras, setCompras] = useState([]);
+
   function sorterData() {
     compras.sort(orderDate);
   }
 
+  useEffect(() => {
+    setCompras(userPurchases[listCompra]);
+  }, [userPurchases]);
   load(sorterData());
 
   return (

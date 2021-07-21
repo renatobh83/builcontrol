@@ -10,6 +10,7 @@ import {
   findAnoInArray,
   groupByCompras,
 } from "../utils/filterDates";
+import { Meses } from "../utils/meses";
 
 interface AppProviderProps {
   children: ReactNode;
@@ -23,8 +24,11 @@ interface IContextValues {
   userPurchases: string[];
   titleYear: string;
   receitas: string[];
+  edtiarCompra: string[];
   objReceita: {};
   receitaToForm: string[];
+  mesDetalhe: string;
+  comprasMes: string[];
   setReceitas: (p: any) => void;
   toggleDetalhes: () => void;
   toggleActive: () => void;
@@ -38,6 +42,7 @@ interface IContextValues {
   addReceitaFetch: (p: any) => void;
   setObjReceita: (p: any) => void;
   setReceitaToForm: (p: any) => void;
+  setEditarCompra: (p: any) => void;
 }
 
 export const AppContext = createContext({} as IContextValues);
@@ -54,6 +59,9 @@ export function Provider({ children }: AppProviderProps) {
   const [userPurchaseByYear, setUserPurchaseByYear] = useState<string[]>([]);
   const [titleYear, setTitleYear] = useState("");
   const [receitaToForm, setReceitaToForm] = useState([]);
+  const [mesDetalhe, setMesDetalhe] = useState("");
+  const [comprasMes, setComprasMes] = useState([]);
+  const [edtiarCompra, setEditarCompra] = useState([]);
 
   // form cadastro nova compras
   function toggleActive() {
@@ -61,7 +69,11 @@ export function Provider({ children }: AppProviderProps) {
   }
 
   // detalhas mes
-  function toggleDetalhes() {
+  function toggleDetalhes(e, { value }) {
+    if (value) {
+      setMesDetalhe(Meses(value));
+      setComprasMes(userPurchases[value]);
+    }
     setDetalhes(!detalhes);
   }
 
@@ -104,11 +116,13 @@ export function Provider({ children }: AppProviderProps) {
     isActiveModalReceita,
     detalhes,
     isActive,
+    comprasMes,
     compratoFetch,
     setComprastoFetch,
     userPurchaseByYear,
     titleYear,
     setTitleYear,
+    mesDetalhe,
     setUserPurchaseByYear,
     dataFetch,
     userPurchases,
@@ -118,6 +132,8 @@ export function Provider({ children }: AppProviderProps) {
     setObjReceita,
     setReceitaToForm,
     receitaToForm,
+    edtiarCompra,
+    setEditarCompra,
   };
 
   return (

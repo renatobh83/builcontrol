@@ -16,6 +16,7 @@ export default function Cabecalho() {
     userPurchaseByYear,
     titleYear,
     setTitleYear,
+    mesDetalhe,
     dataFetch,
     userPurchases,
     addReceitaFetch,
@@ -96,7 +97,11 @@ export default function Cabecalho() {
         />
       </Segment>
       <Segment textAlign="center">
-        <Header as="h3" color="black" content={!detalhes ? titleYear : "Mes"} />
+        <Header
+          as="h3"
+          color="black"
+          content={!detalhes ? titleYear : mesDetalhe}
+        />
       </Segment>
       <Segment>
         <Button
