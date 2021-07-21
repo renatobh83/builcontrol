@@ -35,7 +35,7 @@ export default function DetalhesMes() {
             content={format(new Date(dataCompra), "dd/MM")}
           />
           {groupby(comprasMes, "data")[dataCompra].map((compra) => (
-            <Segment raised>
+            <Segment raised key={compra._id}>
               <Grid columns="equal">
                 <Grid.Row only="mobile">
                   <Grid.Column>
