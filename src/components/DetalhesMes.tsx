@@ -61,7 +61,21 @@ export default function DetalhesMes() {
               <Grid columns="equal">
                 <Grid.Row only="mobile">
                   <Grid.Column>
-                    {compra.descr} - R$ {compra.valor.$numberDecimal}
+                    <Item>
+                      <Item.Content>
+                        <Item.Header>{compra.descr}</Item.Header>
+                        <Item.Meta>
+                          <span className="price">
+                            R$ {compra.valor.$numberDecimal}{" "}
+                          </span>
+                          {compra.numParcela && (
+                            <span className="stay">
+                              Parcelado {compra.numParcela} - {compra.parcelas}
+                            </span>
+                          )}
+                        </Item.Meta>
+                      </Item.Content>
+                    </Item>
                     <Grid.Column>{compra.categoria}</Grid.Column>
                     <Divider />
                     <Button.Group size="mini">

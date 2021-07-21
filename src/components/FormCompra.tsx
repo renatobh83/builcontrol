@@ -19,7 +19,7 @@ interface IPropsValue {
 }
 interface IDataValues {
   user: any;
-  recorrente: boolean;
+  recorrente: String;
   valor: String;
   mes: String;
   ano: String;
@@ -40,6 +40,7 @@ export default function FormCompra() {
   const [descr, setDescr] = useState("");
   const [data, setData] = useState("");
   const [parcelas, setParcelas] = useState("");
+  const [recorrente, setRecorrente] = useState("");
   const [isChecked, setIsChecked] = useState(false);
 
   function handleChange(e: any, { value }: IPropsValue) {
@@ -61,8 +62,8 @@ export default function FormCompra() {
   function handleParcelas(e: any) {
     setParcelas(e);
   }
-  const handleOnChange = () => {
-    setIsChecked(!isChecked);
+  const handleOnChange = (e: any, { value }: IPropsValue) => {
+    setRecorrente(value);
   };
   function exitModal() {
     setIsChecked(false);
@@ -87,7 +88,7 @@ export default function FormCompra() {
 
     const dataToSave: IDataValues = {
       user: user?.sub,
-      recorrente: isChecked,
+      recorrente,
       valor: valor.replace(",", "."),
       mes: getMonth(new Date(converteDate(data))).toString(),
       ano: getYear(new Date(converteDate(data))).toString(),
@@ -199,15 +200,38 @@ export default function FormCompra() {
                 </div>
               )}
             </Form.Group>
-            <Form.Field>
-              <Checkbox
-                label="Recorrente"
-                name="recor"
-                value="true"
-                checked={isChecked}
-                onChange={handleOnChange}
-              />
-            </Form.Field>
+            <Form.Group>
+              <Form.Field>
+                <Checkbox
+                  radio
+                  label="Recorrente 6 meses"
+                  name="recorrente"
+                  checked={recorrente === "6"}
+                  value="6"
+                  onChange={handleOnChange}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Checkbox
+                  radio
+                  label="Recorrente 12 meses"
+                  name="recorrente"
+                  value="12"
+                  checked={recorrente === "12"}
+                  onChange={handleOnChange}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Checkbox
+                  radio
+                  label="Limpar"
+                  name="recorrente"
+                  value=""
+                  checked={false}
+                  onChange={handleOnChange}
+                />
+              </Form.Field>
+            </Form.Group>
             <Form.Group>
               <Label content="Categoria" horizontal />
               <Form.Field>

@@ -68,6 +68,30 @@ class ComprasController {
 
         compras.push(compraParcela);
         return compras;
+      } else if (recorrente !== "") {
+        let dataRecorrente;
+        let compras = [];
+        const idCompra = uuid();
+        for (let i = 1; i < Number(recorrente); i++) {
+          dataRecorrente = addMonths(new Date(data), i);
+          const dataToSave = {
+            parcelas,
+            data: dataRecorrente,
+            valor,
+            descr,
+
+            ano: getYear(dataRecorrente).toString(),
+            categoria,
+            formaPagamento,
+            mes: getMonth(dataRecorrente).toString(),
+            recorrente,
+            user,
+            identifier: idCompra,
+          };
+          compra = await Compras.create(dataToSave);
+          compras.push(compra);
+        }
+        return compras;
       } else {
         // lancemento a vista
         compra = await Compras.create(params);
