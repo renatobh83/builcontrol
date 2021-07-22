@@ -11,11 +11,9 @@ export default function Itens({ type, valor }: IItemProps) {
   const { userPurchases, objReceita } = useAppContext();
   const [despesa, setDespesa] = useState(0);
   const [receita, setReceita] = useState(0);
-  const [resto, setResto] = useState({});
 
   let despesaTotal = 0;
   let receitaTotal = 0;
-  let sobra = 0;
 
   const calcularValores = () => {
     userPurchases[valor].forEach((obj: any) => {
@@ -44,11 +42,15 @@ export default function Itens({ type, valor }: IItemProps) {
             <Label
               id="noBorder"
               color={type === "Despesa" ? "red" : "black"}
-              size="large"
+              size="Large"
               basic
             >
               <Label.Detail>
-                {type === "Despesa" ? despesa.toFixed(2) : receita.toFixed(2)}
+                {type === "Despesa"
+                  ? despesa.toFixed(2)
+                  : type === "Receita"
+                  ? receita.toFixed(2)
+                  : (receita - despesa).toFixed(2)}
               </Label.Detail>
             </Label>
           </Item.Meta>

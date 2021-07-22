@@ -5,6 +5,7 @@ import { getMonth, getYear } from "date-fns";
 import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import { converteDate } from "../utils/filterDates";
+import { reset } from "./FormCompra";
 
 interface IPropsValue {
   value: string;
@@ -52,8 +53,8 @@ export default function FormReceita() {
       body: JSON.stringify(dataToSave),
     });
     const receita = await dataResponse.json();
-    receitas.push(receita.data);
     addReceitaFetch(receitas);
+    reset([setData, setValor]);
     toggleReceita();
   }
 
@@ -79,7 +80,7 @@ export default function FormReceita() {
                       <CurrencyFormat
                         placeholder="Valor"
                         required
-                        allowNegative={false}
+                        allowNegative={true}
                         decimalSeparator=","
                         inputMode="decimal"
                         onChange={(e: any) => setValor(e.target.value)}

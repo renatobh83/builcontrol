@@ -4,9 +4,7 @@ import {
   Segment,
   Label,
   Button,
-  Header,
   Modal,
-  Icon,
   Item,
   Divider,
   Grid,
@@ -16,14 +14,16 @@ import { groupby } from "../utils/filterDates";
 export default function DetalhesMes() {
   const {
     comprasMes,
-    toggleActive,
-    setEditarCompra,
     compratoFetch,
     setDetalhes,
+    setEditarCompra,
+    toggleActive,
     setComprastoFetch,
     dataFetch,
   } = useAppContext();
   const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
+
   const handleEditar = (compra) => {
     if (compra.formaPagamento !== "credito") {
       // setEditarCompra(compra);
@@ -34,7 +34,7 @@ export default function DetalhesMes() {
   };
 
   const handleApagar = async (id) => {
-    if (id.numParcela > 1) return setOpen(true);
+    if (id.numParcela > 1) return setOpen2(true);
     await fetch(`/api/compras/loadInsert?identifier=${id.identifier}`, {
       method: "DELETE",
     });
@@ -92,7 +92,7 @@ export default function DetalhesMes() {
                       </Item.Content>
                     </Item>
                   </Grid.Column>
-                  <Grid.Column>
+                  <Grid.Column textAlign="center">
                     <Grid.Row>{compra.categoria}</Grid.Row>
                     <Divider />
                     <Button.Group size="mini">
@@ -146,7 +146,11 @@ export default function DetalhesMes() {
                       )}
                     </Item.Description>
                   </Grid.Column>
-                  <Grid.Column width="5">
+                  <Grid.Column
+                    width="5"
+                    textAlign="center"
+                    verticalAlign="middle"
+                  >
                     <Button.Group>
                       <Button positive onClick={() => handleEditar(compra)}>
                         Editar
@@ -168,6 +172,15 @@ export default function DetalhesMes() {
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
             content="Lançamento parcelado não pode ser editado."
+            actions={[{ key: "done", content: "Ok", positive: true }]}
+          />
+          <Modal
+            open={open2}
+            size="mini"
+            dimmer="blurring"
+            onClose={() => setOpen2(false)}
+            onOpen={() => setOpen2(true)}
+            content="Favor selecionar a primeira parcela para apagar movimento."
             actions={[{ key: "done", content: "Ok", positive: true }]}
           />
         </Fragment>

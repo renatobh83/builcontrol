@@ -52,23 +52,27 @@ export default function CardMes() {
       {!detalhes &&
         Object.keys(userPurchases).map((mes) => (
           <>
-            <Card fluid key={mes}>
+            <Card fluid key={mes} raised>
               <Header as="h2">
                 <Label ribbon content={Meses(mes)} color="red" />
               </Header>
               <Container>
                 <Grid columns="equal" padded="vertically">
                   <Grid.Row only="computer tablet">
-                    <Grid.Column>
+                    <Grid.Column width="2" textAlign="center">
                       <Itens type="Receita" valor={mes} />
                     </Grid.Column>
-                    <Grid.Column>
+                    <Grid.Column width="2" textAlign="center">
                       <Itens type="Despesa" valor={mes} />
                     </Grid.Column>
-                    <Grid.Column>
+                    <Grid.Column width="2" textAlign="center">
+                      <Itens type="Resto" valor={mes} />
+                    </Grid.Column>
+
+                    <Grid.Column textAlign="center">
                       <ItensRigth listCompra={mes} />
                     </Grid.Column>
-                    <Grid.Column>
+                    <Grid.Column width="3">
                       <Segment basic size="mini">
                         <Button
                           basic
@@ -79,7 +83,7 @@ export default function CardMes() {
                         </Button>
                       </Segment>
                     </Grid.Column>
-                    <Grid.Column>
+                    <Grid.Column textAlign="center" width="3">
                       <Segment basic size="mini">
                         <Button
                           basic
@@ -94,25 +98,28 @@ export default function CardMes() {
                   </Grid.Row>
                   {/* Grid mobile */}
                   <Grid.Row only="mobile">
-                    <Grid.Column>
+                    <Grid.Column textAlign="center">
                       <Itens type="Receita" valor={mes} />
                     </Grid.Column>
-                    <Grid.Column>
+                    <Grid.Column textAlign="center">
                       <Itens type="Despesa" valor={mes} />
+                    </Grid.Column>
+                    <Grid.Column textAlign="center">
+                      <Itens type="Resto" valor={mes} />
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row columns={2} only="mobile">
                     <ItensRigth listCompra={mes} />
                   </Grid.Row>
                   <Grid.Row only="mobile">
-                    <Grid.Column>
+                    <Grid.Column textAlign="center">
                       <Segment basic size="mini">
                         <Button basic color="green" onClick={toggleReceita}>
                           Receita
                         </Button>
                       </Segment>
                     </Grid.Column>
-                    <Grid.Column>
+                    <Grid.Column textAlign="center">
                       <Segment basic size="mini">
                         <Button
                           basic

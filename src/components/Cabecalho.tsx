@@ -70,7 +70,7 @@ export default function Cabecalho() {
   }, [titleYear]); // eslint-disable-line
 
   return (
-    <Segment.Group horizontal>
+    <Segment.Group horizontal raised>
       <Segment>
         {detalhes && (
           <Popup
@@ -116,14 +116,15 @@ export default function Cabecalho() {
         {detalhes ? (
           <Popup
             content="Filtrar"
-            trigger={
-              <Button
-                icon="ellipsis vertical"
-                size="tiny"
-                floated="right"
-                basic
-              />
-            }
+            // trigger={
+            //   <Button
+            //     icon="ellipsis vertical"
+            //     size="tiny"
+            //     floated="right"
+            //     basic
+            //     onClick={handleFilter}
+            //   />
+            // }
           />
         ) : (
           <Popup

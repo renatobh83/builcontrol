@@ -29,17 +29,12 @@ export default function Home({ compras, receitas }: IDataProps) {
       <FormCompra />
       <FormReceita />
       <div className="divAnimate">
-        <Popup
-          content="Lançar compra"
-          trigger={
-            <Button
-              icon="add"
-              size="huge"
-              primary
-              circular
-              onClick={toggleActive}
-            />
-          }
+        <Button
+          icon="add"
+          size="huge"
+          primary
+          circular
+          onClick={toggleActive}
         />
       </div>
     </Container>

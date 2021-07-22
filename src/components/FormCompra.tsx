@@ -30,8 +30,14 @@ interface IDataValues {
   formaPagamento: string;
 }
 export default function FormCompra() {
-  const { isActive, toggleActive, dataFetch, compratoFetch, edtiarCompra } =
-    useAppContext();
+  const {
+    isActive,
+    toggleActive,
+    dataFetch,
+    compratoFetch,
+    edtiarCompra,
+    setEditarCompra,
+  } = useAppContext();
 
   const { user } = useUser();
   const [categoria, setCategoria] = useState("");
@@ -66,6 +72,7 @@ export default function FormCompra() {
     setRecorrente(value);
   };
   function exitModal() {
+    if (edtiarCompra) setEditarCompra("");
     setIsChecked(false);
     reset([
       setDescr,
@@ -77,11 +84,6 @@ export default function FormCompra() {
     ]);
     toggleActive();
   }
-
-  useEffect(() => {
-    if (edtiarCompra) {
-    }
-  }, []);
 
   async function handleSubmit() {
     if (categoria === "") return alert("Categoria não selecionada");
@@ -117,21 +119,13 @@ export default function FormCompra() {
 
     dataFetch(compratoFetch);
 
-    reset([
-      setDescr,
-      setCategoria,
-      setValor,
-      setData,
-      setFormaPagamento,
-      setParcelas,
-    ]);
-    setIsChecked(false);
-    toggleActive();
+    exitModal();
   }
   const options = [
     { key: "vista", value: "vista", text: "A vista" },
     { key: "credito", value: "credito", text: "Crédito" },
   ];
+
   return (
     <Modal
       onOpen={() => toggleActive()}
@@ -148,7 +142,7 @@ export default function FormCompra() {
               <Form.Input
                 placeholder="Compra"
                 label="Compra"
-                value={descr}
+                value={descr || edtiarCompra.descr}
                 onChange={handleDescricao}
                 required
               />
@@ -231,6 +225,7 @@ export default function FormCompra() {
                 />
               </Form.Field>
             </Form.Group>
+            <Divider />
             <Form.Group>
               <Label content="Categoria" horizontal />
               <Form.Field>
