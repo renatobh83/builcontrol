@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useReducer, useState } from "react";
 import {
   Segment,
   Label,
@@ -11,6 +11,30 @@ import {
 } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
 import { groupby } from "../utils/filterDates";
+function confirmDelete(state, action) {
+  switch (action.type) {
+    case "ABERTURA":
+      return {
+        openConfirm: true,
+      };
+    case "CONFIRMA":
+      return {
+        log: {
+          type: "Confirma",
+          id: action.id,
+        },
+        ...state.log,
+
+        openConfirm: true,
+      };
+    case "CANCELA":
+      return {
+        openConfirm: false,
+      };
+    default:
+      throw new Error();
+  }
+}
 export default function DetalhesMes() {
   const {
     comprasMes,
@@ -24,6 +48,13 @@ export default function DetalhesMes() {
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
 
+  const [state, dispatch] = useReducer(confirmDelete, {
+    log: null,
+    openConfirm: false,
+  });
+
+  const { log, openConfirm } = state;
+
   const handleEditar = (compra) => {
     if (compra.formaPagamento !== "credito") {
       // setEditarCompra(compra);
@@ -32,20 +63,40 @@ export default function DetalhesMes() {
       setOpen(true);
     }
   };
+  const apagar = useCallback(async () => {
+    if (log) {
+      const id = log.id;
+      if (id.numParcela > 1) return setOpen2(true);
+      await fetch(`/api/compras/loadInsert?identifier=${id.identifier}`, {
+        method: "DELETE",
+      });
+      const newArray = compratoFetch.filter(
+        (idCompra) => idCompra.identifier !== id.identifier
+      );
 
-  const handleApagar = async (id) => {
-    if (id.numParcela > 1) return setOpen2(true);
-    await fetch(`/api/compras/loadInsert?identifier=${id.identifier}`, {
-      method: "DELETE",
-    });
-    const newArray = compratoFetch.filter(
-      (idCompra) => idCompra.identifier !== id.identifier
-    );
+      setComprastoFetch(newArray);
+      dataFetch(newArray);
+      setDetalhes(false);
+    }
+  }, [log]);
 
-    setComprastoFetch(newArray);
-    dataFetch(newArray);
-    setDetalhes(false);
-  };
+  (async () => {
+    apagar();
+  })();
+
+  // const handleApagar = async (id) => {
+  //   if (id.numParcela > 1) return setOpen2(true);
+  //   await fetch(`/api/compras/loadInsert?identifier=${id.identifier}`, {
+  //     method: "DELETE",
+  //   });
+  //   const newArray = compratoFetch.filter(
+  //     (idCompra) => idCompra.identifier !== id.identifier
+  //   );
+
+  //   setComprastoFetch(newArray);
+  //   dataFetch(newArray);
+  //   setDetalhes(false);
+  // };
 
   return (
     <>
@@ -100,9 +151,48 @@ export default function DetalhesMes() {
                         Editar
                       </Button>
                       <Button.Or text="Ou" />
-                      <Button negative onClick={() => handleApagar(compra)}>
-                        Apagar
-                      </Button>
+                      <Modal
+                        onOpen={(e) =>
+                          dispatch({
+                            type: "ABERTURA",
+                          })
+                        }
+                        onClose={(e) =>
+                          dispatch({
+                            type: "CANCELA",
+                          })
+                        }
+                        open={openConfirm}
+                        trigger={<Button negative>Apagar </Button>}
+                      >
+                        <Modal.Header>Apagar movimento</Modal.Header>
+                        <Modal.Content>
+                          <p>Voce esta certo que deseja apagar movimento</p>
+                        </Modal.Content>
+                        <Modal.Actions>
+                          <Button
+                            onClick={(e) =>
+                              dispatch({
+                                type: "CANCELA",
+                              })
+                            }
+                            negative
+                          >
+                            Não
+                          </Button>
+                          <Button
+                            onClick={(e) =>
+                              dispatch({
+                                id: compra,
+                                type: "CONFIRMA",
+                              })
+                            }
+                            positive
+                          >
+                            Sim
+                          </Button>
+                        </Modal.Actions>
+                      </Modal>
                     </Button.Group>
                   </Grid.Column>
                 </Grid.Row>
@@ -156,9 +246,51 @@ export default function DetalhesMes() {
                         Editar
                       </Button>
                       <Button.Or text="Ou" />
-                      <Button negative onClick={() => handleApagar(compra)}>
+                      <Modal
+                        onOpen={(e) =>
+                          dispatch({
+                            type: "ABERTURA",
+                          })
+                        }
+                        onClose={(e) =>
+                          dispatch({
+                            type: "CANCELA",
+                          })
+                        }
+                        open={openConfirm}
+                        trigger={<Button negative>Apagar </Button>}
+                      >
+                        <Modal.Header>Apagar movimento</Modal.Header>
+                        <Modal.Content>
+                          <p>Voce esta certo que deseja apagar movimento</p>
+                        </Modal.Content>
+                        <Modal.Actions>
+                          <Button
+                            onClick={(e) =>
+                              dispatch({
+                                type: "CANCELA",
+                              })
+                            }
+                            negative
+                          >
+                            Não
+                          </Button>
+                          <Button
+                            onClick={(e) =>
+                              dispatch({
+                                id: compra,
+                                type: "CONFIRMA",
+                              })
+                            }
+                            positive
+                          >
+                            Sim
+                          </Button>
+                        </Modal.Actions>
+                      </Modal>
+                      {/* <Button negative onClick={() => handleApagar(compra)}>
                         Apagar{" "}
-                      </Button>
+                      </Button> */}
                     </Button.Group>
                   </Grid.Column>
                 </Grid.Row>
