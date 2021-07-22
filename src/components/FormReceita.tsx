@@ -53,6 +53,8 @@ export default function FormReceita() {
       body: JSON.stringify(dataToSave),
     });
     const receita = await dataResponse.json();
+    receitas.push(receita.data);
+
     addReceitaFetch(receitas);
     reset([setData, setValor]);
     toggleReceita();
