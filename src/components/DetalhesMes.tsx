@@ -10,6 +10,7 @@ import {
   Grid,
 } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
+import { imprimir } from "../utils/consoleLog";
 import { groupby } from "../utils/filterDates";
 function confirmDelete(state, action) {
   switch (action.type) {
@@ -57,8 +58,8 @@ export default function DetalhesMes() {
 
   const handleEditar = (compra) => {
     if (compra.formaPagamento !== "credito") {
-      // setEditarCompra(compra);
-      // toggleActive();
+      setEditarCompra(compra);
+      toggleActive();
     } else {
       setOpen(true);
     }
@@ -148,10 +149,14 @@ export default function DetalhesMes() {
                     <Grid.Row>{compra.categoria}</Grid.Row>
                     <Divider />
                     <Button.Group size="mini">
-                      <Button positive onClick={() => handleEditar(compra)}>
+                      {/* <Button
+                        positive
+                        onClick={() => handleEditar(compra)}
+                        disabled
+                      >
                         Editar
                       </Button>
-                      <Button.Or text="Ou" />
+                      <Button.Or text="Ou" /> */}
                       <Modal
                         onOpen={(e) =>
                           dispatch({
@@ -241,10 +246,14 @@ export default function DetalhesMes() {
                     verticalAlign="middle"
                   >
                     <Button.Group>
-                      <Button positive onClick={() => handleEditar(compra)}>
+                      {/* <Button
+                        positive
+                        onClick={() => handleEditar(compra)}
+                        disabled
+                      >
                         Editar
                       </Button>
-                      <Button.Or text="Ou" />
+                      <Button.Or text="Ou" /> */}
                       <Modal
                         onOpen={(e) =>
                           dispatch({

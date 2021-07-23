@@ -132,7 +132,7 @@ export default function Cabecalho() {
             trigger={
               <Button
                 icon="sign out"
-                size="tiny"
+                size="large"
                 basic
                 floated="right"
                 onClick={logout}

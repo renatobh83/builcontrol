@@ -15,6 +15,7 @@ import {
 } from "semantic-ui-react";
 
 import Cabecalho from "./Cabecalho";
+import NCabecalho from "./NewCab";
 import DetalhesMes from "./DetalhesMes";
 import Itens from "./Item";
 import ItensRigth from "./RigthItens";
@@ -47,7 +48,8 @@ export default function CardMes() {
 
   return (
     <>
-      <Cabecalho />
+      {/* <Cabecalho /> */}
+      <NCabecalho />
       {/* Map meses */}
       {!detalhes &&
         Object.keys(userPurchases).map((mes) => (

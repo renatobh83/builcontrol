@@ -14,6 +14,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 
 import CurrencyFormat from "react-currency-format";
 import { decrypt, encrypt } from "../utils/crypto";
+import { imprimir } from "../utils/consoleLog";
 
 interface IPropsValue {
   value: string;
@@ -82,6 +83,7 @@ export default function FormCompra() {
       setData,
       setFormaPagamento,
       setParcelas,
+      setRecorrente,
     ]);
     toggleActive();
   }
@@ -135,7 +137,7 @@ export default function FormCompra() {
       open={isActive}
       dimmer="blurring"
       closeIcon
-      onClose={() => toggleActive()}
+      onClose={() => exitModal()}
     >
       <Modal.Header>Adicionar compra</Modal.Header>
       <Modal.Content>
@@ -160,7 +162,7 @@ export default function FormCompra() {
                     inputMode="decimal"
                     onChange={(e) => handleValor(e.target.value)}
                     type="text"
-                    value={valor}
+                    value={valor || edtiarCompra.valor}
                   />
                 </div>
               </div>
@@ -176,7 +178,7 @@ export default function FormCompra() {
               <Form.Select
                 label="Forma pagamento"
                 required
-                value={formaPagamento}
+                value={formaPagamento || edtiarCompra.formaPagamento}
                 onChange={handleFormaPagamento}
                 options={options}
                 placeholder="Forma pagamento"
@@ -236,6 +238,9 @@ export default function FormCompra() {
                   radio
                   label="Casa"
                   name="categoria"
+                  // defaultChecked={
+                  //   edtiarCompra ? edtiarCompra.categoria : categoria
+                  // }
                   value="Casa"
                   checked={categoria === "Casa"}
                   onChange={handleChange}
@@ -246,6 +251,9 @@ export default function FormCompra() {
                   radio
                   label="Pessoal"
                   name="categoria"
+                  // defaultChecked={
+                  //   edtiarCompra ? edtiarCompra.categoria : categoria
+                  // }
                   value="Pessoal"
                   checked={categoria === "Pessoal"}
                   onChange={handleChange}
