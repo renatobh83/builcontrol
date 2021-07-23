@@ -1,12 +1,8 @@
 import Router from "next/router";
-import { useEffect, useState } from "react";
-
-import { Header, Segment, Button, Popup } from "semantic-ui-react";
+import { useEffect } from "react";
+import { Button, Menu, Popup, Label, Dropdown } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
-
-import { useUser } from "@auth0/nextjs-auth0";
 import { groupByCompras } from "../utils/filterDates";
-export function load(fin?: any) {}
 
 export default function Cabecalho() {
   const {
@@ -22,125 +18,73 @@ export default function Cabecalho() {
     addReceitaFetch,
     setUserPurchases,
     setObjReceita,
-
+    changeAnoRigth,
+    setChangeAnoRigth,
     receitas,
   } = useAppContext();
-
-  const [changeAnoLeft, setChangeAnoLeft] = useState(false);
-  const [changeAnoRigth, setChangeAnoRigth] = useState(false);
-  const [counter, setCounter] = useState(0);
 
   const logout = async () => {
     Router.push("/api/auth/logout");
   };
-
-  const anoSelectLeft = () => {
-    if (counter != 0) {
-      setCounter(counter - 1);
-      setTitleYear(userPurchaseByYear[counter - 1]);
-    }
-    if (counter - 1 === 0) {
-      setChangeAnoLeft(false);
-    }
-    setChangeAnoRigth(true);
-  };
-
-  const anoSelectRigth = () => {
-    if (counter < userPurchaseByYear.length - 1) {
-      setCounter(counter + 1);
-      setTitleYear(userPurchaseByYear[counter + 1]);
-      if (counter + 1 === userPurchaseByYear.length - 1) {
-        setChangeAnoRigth(false);
-      }
-      setChangeAnoLeft(true);
-    }
+  const changeAno = (e, { value }) => {
+    setTitleYear(value);
   };
 
   useEffect(() => {
     setUserPurchases(groupByCompras(compratoFetch, titleYear));
     setObjReceita(groupByCompras(receitas, titleYear));
-    if (userPurchaseByYear.length > 1) {
-      if (counter === userPurchaseByYear.length - 1) {
-        setChangeAnoRigth(false);
-      } else {
-        setChangeAnoRigth(true);
-      }
-    }
-    // load();
   }, [titleYear]); // eslint-disable-line
 
   return (
-    <Segment.Group horizontal raised>
-      <Segment>
-        {detalhes && (
-          <Popup
-            content="Voltar"
-            trigger={
-              <Button
-                icon="arrow left"
-                size="mini"
-                basic
-                onClick={toggleDetalhes}
-              />
-            }
-          />
-        )}
-
-        <Button
-          className={changeAnoLeft && !detalhes ? "opacity100" : "opacity0"}
-          icon="angle left"
-          floated="right"
-          size="mini"
-          basic
-          id="opacity0"
-          onClick={anoSelectLeft}
-        />
-      </Segment>
-      <Segment textAlign="center">
-        <Header
-          as="h3"
-          color="black"
-          content={!detalhes ? titleYear : mesDetalhe}
-        />
-      </Segment>
-      <Segment>
-        <Button
-          className={changeAnoRigth && !detalhes ? "opacity100" : "opacity0"}
-          icon="angle right"
-          size="mini"
-          basic
-          id="opacity0"
-          onClick={anoSelectRigth}
-        />
-
+    <Menu pointing secondary fluid widths={3}>
+      <Menu.Item>
+        <Menu.Menu position="left">
+          {detalhes && (
+            <Popup
+              size="mini"
+              content="Voltar"
+              trigger={
+                <Button
+                  basic
+                  size="large"
+                  icon="arrow left"
+                  onClick={toggleDetalhes}
+                ></Button>
+              }
+            />
+          )}
+        </Menu.Menu>
+      </Menu.Item>
+      <Menu.Item>
         {detalhes ? (
-          <Popup
-            content="Filtrar"
-            // trigger={
-            //   <Button
-            //     icon="ellipsis vertical"
-            //     size="tiny"
-            //     floated="right"
-            //     basic
-            //     onClick={handleFilter}
-            //   />
-            // }
+          <Label
+            size="huge"
+            color="grey"
+            content={!detalhes ? titleYear : mesDetalhe}
           />
         ) : (
+          <Dropdown item text={titleYear}>
+            <Dropdown.Menu>
+              {userPurchaseByYear.length >= 1 &&
+                userPurchaseByYear.map((ano) => (
+                  <Dropdown.Item key={ano} onClick={changeAno} value={ano}>
+                    {ano}
+                  </Dropdown.Item>
+                ))}
+            </Dropdown.Menu>
+          </Dropdown>
+        )}
+      </Menu.Item>
+      <Menu.Item>
+        <Menu.Menu position="right">
           <Popup
             content="Logout"
             trigger={
-              <Button
-                icon="sign out"
-                size="large"
-                basic
-                floated="right"
-                onClick={logout}
-              />
+              <Button icon="sign out" basic size="large" onClick={logout} />
             }
           />
-        )}
-      </Segment>
-    </Segment.Group>
+        </Menu.Menu>
+      </Menu.Item>
+    </Menu>
   );
 }

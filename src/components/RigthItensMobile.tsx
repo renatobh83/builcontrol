@@ -1,6 +1,6 @@
 import { Item, Grid } from "semantic-ui-react";
 import { format } from "date-fns";
-import { load } from "./Cabecalho";
+import { load } from "./CabecalhoOld";
 import { useAppContext } from "../context/AppContext";
 import { useEffect, useState } from "react";
 interface IItemProps {

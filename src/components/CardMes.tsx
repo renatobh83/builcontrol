@@ -1,4 +1,3 @@
-import { useUser } from "@auth0/nextjs-auth0";
 import { useAppContext } from "../context/AppContext";
 interface IPropsComprasuser {
   key: Number;
@@ -15,13 +14,11 @@ import {
 } from "semantic-ui-react";
 
 import Cabecalho from "./Cabecalho";
-import NCabecalho from "./NewCab";
 import DetalhesMes from "./DetalhesMes";
 import Itens from "./Item";
 import ItensRigth from "./RigthItens";
 import ItensRigthMobile from "./RigthItensMobile";
 import { Meses } from "../utils/meses";
-import { groupByCompras } from "../utils/filterDates";
 
 export default function CardMes() {
   const {
@@ -48,8 +45,7 @@ export default function CardMes() {
 
   return (
     <>
-      {/* <Cabecalho /> */}
-      <NCabecalho />
+      <Cabecalho />
       {/* Map meses */}
       {!detalhes &&
         Object.keys(userPurchases).map((mes) => (
