@@ -68,7 +68,6 @@ export default function DetalhesMes() {
     if (log) {
       const id = log.id;
 
-      if (id.numParcela > 1) return setOpen2(true);
       await fetch(`/api/compras/loadInsert?identifier=${id.identifier}`, {
         method: "DELETE",
       });

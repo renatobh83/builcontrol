@@ -65,7 +65,6 @@ export function Provider({ children }: AppProviderProps) {
   const [mesDetalhe, setMesDetalhe] = useState("");
   const [comprasMes, setComprasMes] = useState([]);
   const [edtiarCompra, setEditarCompra] = useState([]);
-  const [changeAnoRigth, setChangeAnoRigth] = useState(false);
 
   // form cadastro nova compras
   function toggleActive() {
@@ -102,7 +101,6 @@ export function Provider({ children }: AppProviderProps) {
     setUserPurchaseByYear(purchasesInYears);
 
     if (purchasesInYears.length > 1) {
-      setChangeAnoRigth(true);
       if (titleYear === "") {
         setTitleYear(findAnoInArray(purchasesInYears));
       }
@@ -139,8 +137,6 @@ export function Provider({ children }: AppProviderProps) {
     setReceitaToForm,
     receitaToForm,
     edtiarCompra,
-    changeAnoRigth,
-    setChangeAnoRigth,
     setEditarCompra,
   };
 
