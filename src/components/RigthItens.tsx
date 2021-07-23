@@ -25,8 +25,7 @@ export default function ItensRigth({ listCompra }: IItemProps) {
         {compras.slice(0, 4).map((compra) => (
           <Item.Content key={compra._id}>
             <Item.Meta>
-              {format(new Date(compra.data), "dd/MM")} R${" "}
-              {compra.valor.$numberDecimal}
+              {format(new Date(compra.data), "dd/MM")} R$ {compra.valor}
             </Item.Meta>
           </Item.Content>
         ))}

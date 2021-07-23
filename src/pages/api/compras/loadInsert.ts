@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Compras from "../../../models/Compras";
+import CryptoCompras from "../../../models/CryptoCompras";
+import { encrypt } from "../../../utils/crypto";
 import dbConnect from "../../../utils/dbConnect";
 import { receitaController } from "../receitas/contoller/receitaController";
 import { comprasController } from "./controller/comprasController";
@@ -10,7 +12,7 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
   switch (method) {
     case "GET":
       try {
-        const compras = await Compras.find(request.query);
+        const compras = await CryptoCompras.find(request.query);
 
         const receitas = await receitaController.loadReceita(request.query);
         const dataToRespose = {

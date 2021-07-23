@@ -25,8 +25,7 @@ export default function ItensRigthMobile({ compras }: IItemProps) {
         {compras.slice(0, 2).map((compra) => (
           <Item.Content key={compra._id}>
             <Item.Meta>
-              {format(new Date(compra.data), "dd/MM")} R${" "}
-              {compra.valor.$numberDecimal}
+              {format(new Date(compra.data), "dd/MM")} R$ {compra.valor}
             </Item.Meta>
           </Item.Content>
         ))}
@@ -35,8 +34,7 @@ export default function ItensRigthMobile({ compras }: IItemProps) {
         {compras.slice(2, 4).map((compra) => (
           <Item.Content key={compra._id}>
             <Item.Meta>
-              {format(new Date(compra.data), "dd/MM")} R${" "}
-              {compra.valor.$numberDecimal}
+              {format(new Date(compra.data), "dd/MM")} R$ {compra.valor}
             </Item.Meta>
           </Item.Content>
         ))}

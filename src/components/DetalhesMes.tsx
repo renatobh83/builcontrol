@@ -66,6 +66,7 @@ export default function DetalhesMes() {
   const apagar = useCallback(async () => {
     if (log) {
       const id = log.id;
+
       if (id.numParcela > 1) return setOpen2(true);
       await fetch(`/api/compras/loadInsert?identifier=${id.identifier}`, {
         method: "DELETE",
@@ -116,9 +117,7 @@ export default function DetalhesMes() {
                       <Item.Content>
                         <Item.Header>{compra.descr}</Item.Header>
                         <Item.Meta>
-                          <span className="price">
-                            R$ {compra.valor.$numberDecimal}{" "}
-                          </span>
+                          <span className="price">R$ {compra.valor} </span>
 
                           <Grid.Row>
                             {compra.numParcela && (
@@ -131,14 +130,16 @@ export default function DetalhesMes() {
                               <span className="stay">Recorrente</span>
                             )}
                           </Grid.Row>
-                          <Grid.Row>
-                            {compra.parcelas - compra.numParcela === 0
-                              ? ""
-                              : `Resta : ${
-                                  compra.valor.$numberDecimal *
-                                  (compra.parcelas - compra.numParcela)
-                                }`}
-                          </Grid.Row>
+                          {compra.numParcela && (
+                            <Grid.Row>
+                              {compra.parcelas - compra.numParcela === 0
+                                ? ""
+                                : `Resta : ${
+                                    compra.valor *
+                                    (compra.parcelas - compra.numParcela)
+                                  }`}
+                            </Grid.Row>
+                          )}
                         </Item.Meta>
                       </Item.Content>
                     </Item>
@@ -203,9 +204,7 @@ export default function DetalhesMes() {
                         <Item.Content>
                           <Item.Header>{compra.descr}</Item.Header>
                           <Item.Meta>
-                            <span className="price">
-                              R$ {compra.valor.$numberDecimal}{" "}
-                            </span>
+                            <span className="price">R$ {compra.valor} </span>
                           </Item.Meta>
                           <Item.Description>
                             {compra.categoria}
@@ -225,7 +224,7 @@ export default function DetalhesMes() {
                             {compra.parcelas - compra.numParcela === 0
                               ? ""
                               : `Resta : ${
-                                  compra.valor.$numberDecimal *
+                                  compra.valor *
                                   (compra.parcelas - compra.numParcela)
                                 }`}
                           </Grid.Row>

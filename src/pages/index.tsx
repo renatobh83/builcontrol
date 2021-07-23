@@ -9,18 +9,20 @@ import FormCompra from "../components/FormCompra";
 
 import { useEffect } from "react";
 import FormReceita from "../components/FormReceita";
+import { decrypt } from "../utils/crypto";
 
 interface IDataProps {
   compras: string[];
   receitas: string[];
 }
 export default function Home({ compras, receitas }: IDataProps) {
-  const { toggleActive, dataFetch, addReceitaFetch, userPurchases } =
-    useAppContext();
+  const { toggleActive, dataFetch, addReceitaFetch } = useAppContext();
 
   useEffect(() => {
-    dataFetch(compras);
-    addReceitaFetch(receitas);
+    const receitaDecrypt = decrypt(receitas);
+    const comprasDecrypt = decrypt(compras);
+    dataFetch(comprasDecrypt);
+    addReceitaFetch(receitaDecrypt);
   }, []);
 
   return (
@@ -57,6 +59,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const response = await fetch(
     `${process.env.BASE_URL}/api/compras/loadInsert?user=${userLogin}`
   );
+
   const { data } = await response.json();
 
   return { props: { compras: data.compras, receitas: data.receitas } };

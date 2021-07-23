@@ -1,4 +1,6 @@
 import Receitas from "../../../../models/Receita";
+import ReceitaCrypto from "../../../../models/CryptoReceitas";
+import { encrypt } from "../../../../utils/crypto";
 
 interface ICreateReceita {
   data: string;
@@ -9,8 +11,11 @@ interface ICreateReceita {
 class ReceitaControoler {
   async create(params: ICreateReceita) {
     try {
-      const receita = await Receitas.create(params);
+      const data = encrypt(JSON.stringify(params), params.user);
+      const receita = await ReceitaCrypto.create(data);
       return receita;
+      // const receita = await Receitas.create(params);
+      // return receita;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -18,7 +23,9 @@ class ReceitaControoler {
 
   async loadReceita(params: any) {
     try {
-      const receitas = await Receitas.find(params);
+      const receitas = await ReceitaCrypto.find(params);
+      // console.log(receita  s);
+      // const receitas = await Receitas.find(params);
       return receitas;
     } catch (error) {
       throw new Error(error.message);

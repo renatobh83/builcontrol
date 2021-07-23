@@ -17,11 +17,12 @@ export default function Itens({ type, valor }: IItemProps) {
 
   const calcularValores = () => {
     userPurchases[valor].forEach((obj: any) => {
-      despesaTotal = despesaTotal + Number(obj.valor.$numberDecimal);
+      despesaTotal = despesaTotal + Number(obj.valor);
     });
     if (objReceita[valor]) {
       objReceita[valor].forEach((obj: any) => {
-        receitaTotal = receitaTotal + Number(obj.valor.$numberDecimal);
+        // receitaTotal = receitaTotal + Number(obj.valor.$numberDecimal);
+        receitaTotal = receitaTotal + Number(obj.valor);
       });
     } else {
       setReceita(0);

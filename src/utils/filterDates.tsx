@@ -1,31 +1,3 @@
-import { format, getHours, getYear } from "date-fns/";
-import br from "date-fns/locale/pt-BR";
-
-import { Meses } from "./meses";
-
-function MesCompras(compras: any, anoSelect: any) {
-  // const meses = Meses();
-  // let mesComCompras: any = [];
-  // let ano: string[] = [];
-  // compras.data.forEach((compra) => {
-  //   console.log(format(new Date(compra.Compras[0].data), "MMMM"), {
-  //     locale: br,
-  //   });
-  //   ano.push(compra._id.ano);
-  //   if (Number(compra._id.ano) === Number(anoSelect)) {
-  //     let filter = meses.filter((id) => id.key === Number(compra._id.mes));
-  //     filter[0].compra = compra;
-  //     mesComCompras.push(filter[0]);
-  //   }
-  // });
-  // const anoC = anoCompra(ano);
-  // const data = {
-  //   mes: mesComCompras.sort(compare),
-  //   ano: anoC,
-  // };
-  // return data;
-}
-
 const groupby = (array: any[], key: string) => {
   if (array) {
     return array.reduce((result, currentValue) => {
@@ -63,16 +35,6 @@ function anoCompra(compras: any) {
   return reduceArray.sort(sortArray);
 }
 
-function compare(a: any, b: any) {
-  if (a.key < b.key) {
-    return -1;
-  }
-  if (a.key > b.key) {
-    return 1;
-  }
-  return 0;
-}
-
 function sortArray(a: any, b: any) {
   if (a < b) {
     return -1;
@@ -101,7 +63,6 @@ function findAnoInArray(compras: string[]): string {
   return compras[0];
 }
 export {
-  MesCompras,
   converteDate,
   anoCompra,
   findAnoInArray,

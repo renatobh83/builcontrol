@@ -13,6 +13,7 @@ import { converteDate } from "../utils/filterDates";
 import { useUser } from "@auth0/nextjs-auth0";
 
 import CurrencyFormat from "react-currency-format";
+import { decrypt, encrypt } from "../utils/crypto";
 
 interface IPropsValue {
   value: string;
@@ -111,10 +112,12 @@ export default function FormCompra() {
     const compraJson = await insertResponse.json();
 
     if (compraJson.data.length > 1) {
-      compraJson.data.forEach((compra) => compratoFetch.push(compra));
+      compraJson.data.forEach((compra) => {
+        compratoFetch.push(decrypt([compra])[0]);
+      });
       dataFetch(compratoFetch);
     } else {
-      compratoFetch.push(compraJson.data);
+      compratoFetch.push(decrypt([compraJson.data])[0]);
     }
 
     dataFetch(compratoFetch);

@@ -6,7 +6,8 @@ import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import { converteDate } from "../utils/filterDates";
 import { reset } from "./FormCompra";
-
+import { decrypt, encrypt } from "../utils/crypto";
+import { v4 as uuid } from "uuid";
 interface IPropsValue {
   value: string;
 }
@@ -28,15 +29,17 @@ export default function FormReceita() {
   }
 
   async function handleDeleteReceita(e: any, { value }: IPropsValue) {
-    const response = await fetch(`/api/receitas/receita?_id=${value._id}`, {
+    const response = await fetch(`/api/receitas/receita?id=${value.id}`, {
       method: "DELETE",
     });
     await response.json();
-    const newReceita = receitas.filter((id) => id._id !== value._id);
+
+    const newReceita = receitas.filter((id) => id.id !== value.id);
     addReceitaFetch(newReceita);
     setReceitaToForm(newReceita);
     toggleReceita();
   }
+
   async function handleSubmit() {
     const dataToSave = {
       user: user?.sub,
@@ -44,7 +47,9 @@ export default function FormReceita() {
       mes: getMonth(new Date(converteDate(data))).toString(),
       ano: getYear(new Date(converteDate(data))).toString(),
       data: converteDate(data),
+      id: uuid(),
     };
+
     const dataResponse = await fetch("/api/receitas/receita", {
       method: "POST",
       headers: {
@@ -53,8 +58,8 @@ export default function FormReceita() {
       body: JSON.stringify(dataToSave),
     });
     const receita = await dataResponse.json();
-    receitas.push(receita.data);
 
+    receitas.push(decrypt([receita.data])[0]);
     addReceitaFetch(receitas);
     reset([setData, setValor]);
     toggleReceita();
@@ -109,7 +114,7 @@ export default function FormReceita() {
               <List>
                 {receitaToForm.map((receita) => (
                   <List.Item key={receita.id}>
-                    {receita.valor.$numberDecimal}
+                    {receita.valor}
                     <Button
                       basic
                       icon="delete"
@@ -157,7 +162,7 @@ export default function FormReceita() {
               <List>
                 {receitas.map((receita) => (
                   <List.Item key={receita.id}>
-                    {receita.valor.$numberDecimal}
+                    {receita.valor}
                     <Button
                       basic
                       icon="delete"
