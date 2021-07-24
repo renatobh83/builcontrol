@@ -1,8 +1,5 @@
 import { useAppContext } from "../context/AppContext";
-interface IPropsComprasuser {
-  key: Number;
-  value: string;
-}
+
 import {
   Grid,
   Card,
@@ -17,7 +14,6 @@ import Cabecalho from "./Cabecalho";
 import DetalhesMes from "./DetalhesMes";
 import Itens from "./Item";
 import ItensRigth from "./RigthItens";
-import ItensRigthMobile from "./RigthItensMobile";
 import { Meses } from "../utils/meses";
 
 export default function CardMes() {

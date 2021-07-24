@@ -84,21 +84,6 @@ export default function DetalhesMes() {
   (async () => {
     apagar();
   })();
-
-  // const handleApagar = async (id) => {
-  //   if (id.numParcela > 1) return setOpen2(true);
-  //   await fetch(`/api/compras/loadInsert?identifier=${id.identifier}`, {
-  //     method: "DELETE",
-  //   });
-  //   const newArray = compratoFetch.filter(
-  //     (idCompra) => idCompra.identifier !== id.identifier
-  //   );
-
-  //   setComprastoFetch(newArray);
-  //   dataFetch(newArray);
-  //   setDetalhes(false);
-  // };
-
   return (
     <>
       {Object.keys(groupby(comprasMes, "data")).map((dataCompra) => (
@@ -136,7 +121,9 @@ export default function DetalhesMes() {
                                 ? ""
                                 : `Resta : ${
                                     compra.valor *
-                                    (compra.parcelas - compra.numParcela)
+                                    (
+                                      compra.parcelas - compra.numParcela
+                                    ).toFixed(2)
                                   }`}
                             </Grid.Row>
                           )}
@@ -229,7 +216,9 @@ export default function DetalhesMes() {
                               ? ""
                               : `Resta : ${
                                   compra.valor *
-                                  (compra.parcelas - compra.numParcela)
+                                  (compra.parcelas - compra.numParcela).toFixed(
+                                    2
+                                  )
                                 }`}
                           </Grid.Row>
                         </>

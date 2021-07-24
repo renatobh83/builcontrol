@@ -12,21 +12,15 @@ export default function Cabecalho() {
     userPurchaseByYear,
     titleYear,
     setTitleYear,
-    mesDetalhe,
-    dataFetch,
-    userPurchases,
-    addReceitaFetch,
     setUserPurchases,
     setObjReceita,
-    changeAnoRigth,
-    setChangeAnoRigth,
     receitas,
   } = useAppContext();
 
   const logout = async () => {
     Router.push("/api/auth/logout");
   };
-  const changeAno = (e, { value }) => {
+  const changeAno = (e: any, { value }: any) => {
     setTitleYear(value);
   };
 

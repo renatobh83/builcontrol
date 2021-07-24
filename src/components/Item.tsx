@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { Item, Label } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
-
 interface IItemProps {
   type: string;
   valor: string;
 }
 
 export default function Itens({ type, valor }: IItemProps) {
-  const { userPurchases, objReceita } = useAppContext();
+  const { userPurchases, objReceita, receitas, addReceitaFetch } =
+    useAppContext();
   const [despesa, setDespesa] = useState(0);
   const [receita, setReceita] = useState(0);
 
@@ -27,12 +27,13 @@ export default function Itens({ type, valor }: IItemProps) {
     } else {
       setReceita(0);
     }
-
     setDespesa(despesaTotal);
     setReceita(receitaTotal);
   };
+
   useEffect(() => {
     calcularValores();
+    return () => {};
   }, [objReceita, userPurchases]);
   return (
     <Item.Group unstackable>

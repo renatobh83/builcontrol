@@ -6,6 +6,9 @@ const CryptoReceitasSchema = new mongoose.Schema({
   user: {
     type: String,
   },
+  id: {
+    type: String,
+  },
   encryptedData: {
     type: String,
   },

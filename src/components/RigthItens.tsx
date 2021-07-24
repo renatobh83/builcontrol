@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { Item, Container, Label } from "semantic-ui-react";
+import { Item, Container } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
 import { load } from "./CabecalhoOld";
 interface IItemProps {

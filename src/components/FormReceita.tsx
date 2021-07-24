@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import { converteDate } from "../utils/filterDates";
 import { reset } from "./FormCompra";
-import { decrypt, encrypt } from "../utils/crypto";
+import { decrypt } from "../utils/crypto";
 import { v4 as uuid } from "uuid";
 interface IPropsValue {
   value: string;

@@ -12,6 +12,8 @@ class ReceitaControoler {
   async create(params: ICreateReceita) {
     try {
       const data = encrypt(JSON.stringify(params), params.user);
+      data.id = params.id;
+
       const receita = await ReceitaCrypto.create(data);
       return receita;
       // const receita = await Receitas.create(params);
@@ -31,29 +33,10 @@ class ReceitaControoler {
       throw new Error(error.message);
     }
   }
-  async totalReceita(params: any) {
-    const { user } = params;
-    const compras = await Receitas.aggregate([
-      {
-        $match: { user },
-      },
-
-      {
-        $group: {
-          _id: {
-            ano: "$ano",
-            mes: "$mes",
-          },
-
-          totalComprasMes: { $sum: "$valor" },
-        },
-      },
-    ]);
-    return compras;
-  }
 
   async deleteReceita(id: any) {
-    const apagar = await Receitas.deleteOne(id);
+    console.log(id);
+    const apagar = await ReceitaCrypto.deleteOne(id);
     return apagar.deletedCount;
   }
 }

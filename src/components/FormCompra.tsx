@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { format, getMonth, getYear } from "date-fns";
+import { useState } from "react";
+import { getMonth, getYear } from "date-fns";
 import {
   Button,
   Checkbox,
@@ -13,8 +13,8 @@ import { converteDate } from "../utils/filterDates";
 import { useUser } from "@auth0/nextjs-auth0";
 
 import CurrencyFormat from "react-currency-format";
-import { decrypt, encrypt } from "../utils/crypto";
-import { imprimir } from "../utils/consoleLog";
+
+import { decrypt } from "../utils/crypto";
 
 interface IPropsValue {
   value: string;
