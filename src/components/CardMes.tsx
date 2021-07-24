@@ -14,6 +14,7 @@ import Cabecalho from "./Cabecalho";
 import DetalhesMes from "./DetalhesMes";
 import Itens from "./Item";
 import ItensRigth from "./RigthItens";
+import ItensRigthMobile from "./RigthItensMobile";
 import { Meses } from "../utils/meses";
 
 export default function CardMes() {
@@ -104,7 +105,8 @@ export default function CardMes() {
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row columns={2} only="mobile">
-                    <ItensRigth listCompra={mes} />
+                    {/* <ItensRigth listCompra={mes} /> */}
+                    <ItensRigthMobile listCompra={mes} />
                   </Grid.Row>
                   <Grid.Row only="mobile">
                     <Grid.Column textAlign="center">

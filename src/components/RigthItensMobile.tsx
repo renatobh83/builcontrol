@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 interface IItemProps {
   compras: any;
 }
-export default function ItensRigthMobile({ compras }: IItemProps) {
+export default function ItensRigthMobile({ listCompra }: IItemProps) {
   const { userPurchases } = useAppContext();
   const [compras, setCompras] = useState([]);
 
