@@ -20,6 +20,7 @@ export default function CardMes() {
   const {
     detalhes,
     toggleDetalhes,
+    mesDetalhe,
     toggleReceita,
     setReceitaToForm,
     userPurchases,

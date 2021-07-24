@@ -11,6 +11,7 @@ export default function Cabecalho() {
     compratoFetch,
     userPurchaseByYear,
     titleYear,
+    mesDetalhe,
     setTitleYear,
     setUserPurchases,
     setObjReceita,

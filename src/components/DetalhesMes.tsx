@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { Fragment, useCallback, useEffect, useReducer, useState } from "react";
+import { Fragment, useCallback, useReducer, useState } from "react";
 import {
   Segment,
   Label,
@@ -10,7 +10,6 @@ import {
   Grid,
 } from "semantic-ui-react";
 import { useAppContext } from "../context/AppContext";
-import { imprimir } from "../utils/consoleLog";
 import { groupby } from "../utils/filterDates";
 function confirmDelete(state, action) {
   switch (action.type) {
@@ -39,6 +38,7 @@ function confirmDelete(state, action) {
 export default function DetalhesMes() {
   const {
     comprasMes,
+    mesDetalhe,
     compratoFetch,
     setDetalhes,
     setEditarCompra,
