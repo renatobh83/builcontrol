@@ -21,7 +21,7 @@ export default function Home({ compras, receitas }: IDataProps) {
   useEffect(() => {
     const receitaDecrypt = decrypt(receitas);
     const comprasDecrypt = decrypt(compras);
-    console.log(comprasDecrypt);
+
     dataFetch(comprasDecrypt);
     addReceitaFetch(receitaDecrypt);
   }, []);
