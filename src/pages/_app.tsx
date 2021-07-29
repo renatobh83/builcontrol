@@ -13,6 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             name="viewport"
             content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
           />
+          <title>Controle de gastos</title>
         </Head>
         <Component {...pageProps} />
       </Provider>
