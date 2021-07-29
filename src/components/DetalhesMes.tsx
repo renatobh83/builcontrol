@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import Head from "next/head";
 import { Fragment, useCallback, useReducer, useState } from "react";
 import {
   Segment,
@@ -86,6 +87,9 @@ export default function DetalhesMes() {
   })();
   return (
     <>
+      <Head>
+        <title>{mesDetalhe}</title>
+      </Head>
       {Object.keys(groupby(comprasMes, "data")).map((dataCompra) => (
         <Fragment key={dataCompra}>
           <Label
