@@ -123,12 +123,10 @@ export default function DetalhesMes() {
                             <Grid.Row>
                               {compra.parcelas - compra.numParcela === 0
                                 ? ""
-                                : `Resta : ${
+                                : `Resta : ${(
                                     compra.valor *
-                                    (
-                                      compra.parcelas - compra.numParcela
-                                    ).toFixed(2)
-                                  }`}
+                                    (compra.parcelas - compra.numParcela)
+                                  ).toFixed(2)}`}
                             </Grid.Row>
                           )}
                         </Item.Meta>
@@ -218,12 +216,10 @@ export default function DetalhesMes() {
                           <Grid.Row>
                             {compra.parcelas - compra.numParcela === 0
                               ? ""
-                              : `Resta : ${
+                              : `Resta : ${(
                                   compra.valor *
-                                  (compra.parcelas - compra.numParcela).toFixed(
-                                    2
-                                  )
-                                }`}
+                                  (compra.parcelas - compra.numParcela)
+                                ).toFixed(2)}`}
                           </Grid.Row>
                         </>
                       )}
