@@ -55,7 +55,6 @@ export default function Cabecalho() {
           <Label
             size="huge"
             color="grey"
-            id="titleLabel"
             content={!detalhes ? titleYear : mesDetalhe}
           />
         ) : (

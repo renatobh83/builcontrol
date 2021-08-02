@@ -40,6 +40,6 @@ body {
 #noBorder {
   border: 0;
 }
-#titleLabel {
+.item {
   font-size: 1.5rem;
 }
