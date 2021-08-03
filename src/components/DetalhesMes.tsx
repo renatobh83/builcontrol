@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import Head from "next/head";
-import { Fragment, useCallback, useReducer, useState } from "react";
+import { Fragment, useCallback, useEffect, useReducer, useState } from "react";
 import {
   Segment,
   Label,
@@ -44,6 +44,8 @@ export default function DetalhesMes() {
     setDetalhes,
     setEditarCompra,
     toggleActive,
+    setTotalCasa,
+    setTotalPessoal,
     setComprastoFetch,
     dataFetch,
   } = useAppContext();
@@ -65,10 +67,10 @@ export default function DetalhesMes() {
       setOpen(true);
     }
   };
+
   const apagar = useCallback(async () => {
     if (log) {
       const id = log.id;
-
       await fetch(`/api/compras/loadInsert?identifier=${id.identifier}`, {
         method: "DELETE",
       });
@@ -85,6 +87,19 @@ export default function DetalhesMes() {
   (async () => {
     apagar();
   })();
+  let totalCasa = 0;
+  let totalPessoal = 0;
+  useEffect(() => {
+    comprasMes.forEach((compra) => {
+      if (compra.categoria === "Casa") {
+        totalCasa = totalCasa + +compra.valor;
+        setTotalCasa(totalCasa);
+      } else {
+        totalPessoal = totalPessoal + +compra.valor;
+        setTotalPessoal(totalPessoal);
+      }
+    });
+  }, []);
   return (
     <>
       <Head>
@@ -93,8 +108,9 @@ export default function DetalhesMes() {
       {Object.keys(groupby(comprasMes, "data")).map((dataCompra) => (
         <Fragment key={dataCompra}>
           <Label
-            ribbon
+            pointing="below"
             color="red"
+            basic
             content={format(new Date(dataCompra), "dd/MM")}
           />
           {groupby(comprasMes, "data")[dataCompra].map((compra) => (

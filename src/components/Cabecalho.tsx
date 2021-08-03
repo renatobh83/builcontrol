@@ -16,6 +16,8 @@ export default function Cabecalho() {
     setUserPurchases,
     setObjReceita,
     receitas,
+    totalCasa,
+    totalPessoal,
   } = useAppContext();
 
   const logout = async () => {
@@ -52,13 +54,15 @@ export default function Cabecalho() {
       </Menu.Item>
       <Menu.Item>
         {detalhes ? (
-          <Label
-            size="huge"
-            color="grey"
-            content={!detalhes ? titleYear : mesDetalhe}
-          />
+          <>
+            <Label
+              size="huge"
+              color="grey"
+              content={!detalhes ? titleYear : mesDetalhe}
+            />
+          </>
         ) : (
-          <Dropdown item text={titleYear}>
+          <Dropdown item pointing text={titleYear}>
             <Dropdown.Menu>
               {userPurchaseByYear.length >= 1 &&
                 userPurchaseByYear.map((ano) => (

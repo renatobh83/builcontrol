@@ -40,6 +40,6 @@ body {
 #noBorder {
   border: 0;
 }
-.item {
-  font-size: 1.5rem;
+.ui.item.pointing.dropdown {
+  font-size: 1.3rem;
 }

@@ -23,7 +23,11 @@ interface IContextValues {
   receitaToForm: string[];
   mesDetalhe: string;
   comprasMes: string[];
-  changeAnoRigth: boolean;
+  // changeAnoRigth: boolean;
+  totalCasa: number;
+  totalPessoal: number;
+  setTotalPessoal: (p: number) => void;
+  setTotalCasa: (p: number) => void;
   setReceitas: (p: any) => void;
   toggleDetalhes: () => void;
   toggleActive: () => void;
@@ -39,7 +43,7 @@ interface IContextValues {
   setReceitaToForm: (p: any) => void;
   setEditarCompra: (p: any) => void;
   setDetalhes: (p: any) => void;
-  setChangeAnoRigth: (p: any) => void;
+  // setChangeAnoRigth: (p: any) => void;
 }
 
 export const AppContext = createContext({} as IContextValues);
@@ -59,6 +63,8 @@ export function Provider({ children }: AppProviderProps) {
   const [mesDetalhe, setMesDetalhe] = useState("");
   const [comprasMes, setComprasMes] = useState([]);
   const [edtiarCompra, setEditarCompra] = useState([]);
+  const [totalCasa, setTotalCasa] = useState(0);
+  const [totalPessoal, setTotalPessoal] = useState(0);
 
   // form cadastro nova compras
   function toggleActive() {
@@ -70,6 +76,8 @@ export function Provider({ children }: AppProviderProps) {
     if (value) {
       setMesDetalhe(Meses(value));
       setComprasMes(userPurchases[value]);
+      setTotalPessoal(0);
+      setTotalCasa(0);
     }
     setDetalhes(!detalhes);
   }
@@ -132,6 +140,10 @@ export function Provider({ children }: AppProviderProps) {
     receitaToForm,
     edtiarCompra,
     setEditarCompra,
+    totalCasa,
+    totalPessoal,
+    setTotalCasa,
+    setTotalPessoal,
   };
 
   return (
