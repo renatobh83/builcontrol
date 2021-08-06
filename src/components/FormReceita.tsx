@@ -39,7 +39,6 @@ export default function FormReceita() {
     setReceitaToForm(newReceita);
     toggleReceita();
   }
-  console.log(receitaToForm);
 
   async function handleSubmit() {
     const dataToSave = {

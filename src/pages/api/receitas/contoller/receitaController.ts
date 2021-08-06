@@ -35,7 +35,6 @@ class ReceitaControoler {
   }
 
   async deleteReceita(id: any) {
-    console.log(id);
     const apagar = await ReceitaCrypto.deleteOne(id);
     return apagar.deletedCount;
   }
