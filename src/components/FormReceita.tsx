@@ -39,6 +39,7 @@ export default function FormReceita() {
     setReceitaToForm(newReceita);
     toggleReceita();
   }
+  console.log(receitaToForm);
 
   async function handleSubmit() {
     const dataToSave = {
@@ -160,7 +161,7 @@ export default function FormReceita() {
                 </Modal.Actions>
               </Form>
               <List>
-                {receitas.map((receita) => (
+                {receitaToForm.map((receita) => (
                   <List.Item key={receita.id}>
                     {receita.valor}
                     <Button
