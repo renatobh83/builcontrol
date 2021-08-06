@@ -32,7 +32,6 @@ export default function CardMes() {
     if (Object.keys(objReceita).length > 0) {
       if (objReceita[mes]) {
         const receitaMes = objReceita[mes];
-
         setReceitaToForm(receitaMes);
       } else {
         setReceitaToForm([]);
@@ -111,7 +110,11 @@ export default function CardMes() {
                   <Grid.Row only="mobile">
                     <Grid.Column textAlign="center">
                       <Segment basic size="mini">
-                        <Button basic color="green" onClick={toggleReceita}>
+                        <Button
+                          basic
+                          color="green"
+                          onClick={() => receitaAdd(mes)}
+                        >
                           Receita
                         </Button>
                       </Segment>

@@ -40,6 +40,7 @@ export default function FormReceita() {
     toggleReceita();
   }
 
+  console.log(receitaToForm);
   async function handleSubmit() {
     const dataToSave = {
       user: user?.sub,
