@@ -67,7 +67,7 @@ export default function GridCompras({ compra }) {
         <Header content="Apagar movimento" />
         <Modal.Content>
           <p>Voce esta certo que deseja apagar movimento </p>
-          <p>Esta operacao nao podera ser desfeita</p>
+          <p>Esta operação não poderá ser desfeita</p>
         </Modal.Content>
         <Modal.Actions>
           <Button color="red" onClick={() => setOpen(false)}>
